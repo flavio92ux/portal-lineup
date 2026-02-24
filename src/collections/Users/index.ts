@@ -30,6 +30,7 @@ export const Users: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    slugField({ fieldToUse: 'name' }),
     {
       name: 'avatar',
       type: 'upload',
@@ -75,7 +76,6 @@ export const Users: CollectionConfig = {
         },
       ],
     },
-    ...slugField('name'),
   ],
   timestamps: true,
 }
