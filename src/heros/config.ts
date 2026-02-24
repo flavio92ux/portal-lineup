@@ -17,22 +17,22 @@ export const hero: Field = {
       name: 'type',
       type: 'select',
       defaultValue: 'lowImpact',
-      label: 'Type',
+      label: 'Tipo',
       options: [
         {
-          label: 'None',
+          label: 'Nenhum',
           value: 'none',
         },
         {
-          label: 'High Impact',
+          label: 'Alto Impacto',
           value: 'highImpact',
         },
         {
-          label: 'Medium Impact',
+          label: 'Médio Impacto',
           value: 'mediumImpact',
         },
         {
-          label: 'Low Impact',
+          label: 'Baixo Impacto',
           value: 'lowImpact',
         },
       ],

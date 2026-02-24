@@ -58,14 +58,16 @@ export const Pages: CollectionConfig<'pages'> = {
     {
       name: 'title',
       type: 'text',
+      label: 'título',
       required: true,
     },
     {
       type: 'tabs',
+      label: 'seções',
       tabs: [
         {
           fields: [hero],
-          label: 'Hero',
+          label: 'Destaque',
         },
         {
           fields: [
@@ -79,7 +81,7 @@ export const Pages: CollectionConfig<'pages'> = {
               },
             },
           ],
-          label: 'Content',
+          label: 'Conteúdo',
         },
         {
           name: 'meta',
