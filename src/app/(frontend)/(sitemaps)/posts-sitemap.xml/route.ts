@@ -15,7 +15,7 @@ const getPostsSitemap = unstable_cache(
       collection: 'posts',
       overrideAccess: false,
       draft: false,
-      depth: 0,
+      depth: 1,
       limit: 1000,
       pagination: false,
       where: {
@@ -25,7 +25,9 @@ const getPostsSitemap = unstable_cache(
       },
       select: {
         slug: true,
+        type: true,
         updatedAt: true,
+        authors: true,
       },
     })
 
@@ -34,10 +36,28 @@ const getPostsSitemap = unstable_cache(
     const sitemap = results.docs
       ? results.docs
           .filter((post) => Boolean(post?.slug))
-          .map((post) => ({
-            loc: `${SITE_URL}/posts/${post?.slug}`,
-            lastmod: post.updatedAt || dateFallback,
-          }))
+          .map((post) => {
+            let loc: string
+
+            if (post.type === 'column') {
+              // For columns, build /autor/[author-slug]/[post-slug]
+              const author = post.authors?.[0]
+              const authorSlug =
+                typeof author === 'object' && author !== null
+                  ? (author as any).slug
+                  : null
+              loc = authorSlug
+                ? `${SITE_URL}/autor/${authorSlug}/${post.slug}`
+                : `${SITE_URL}/posts/${post.slug}`
+            } else {
+              loc = `${SITE_URL}/noticias/${post.slug}`
+            }
+
+            return {
+              loc,
+              lastmod: post.updatedAt || dateFallback,
+            }
+          })
       : []
 
     return sitemap

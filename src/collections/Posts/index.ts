@@ -41,14 +41,16 @@ export const Posts: CollectionConfig<'posts'> = {
   defaultPopulate: {
     title: true,
     slug: true,
+    type: true,
     categories: true,
+    authors: true,
     meta: {
       image: true,
       description: true,
     },
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'type', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -66,6 +68,20 @@ export const Posts: CollectionConfig<'posts'> = {
     useAsTitle: 'title',
   },
   fields: [
+    {
+      name: 'type',
+      type: 'select',
+      required: true,
+      defaultValue: 'news',
+      options: [
+        { label: 'Noticia', value: 'news' },
+        { label: 'Coluna', value: 'column' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Tipo de publicacao: noticia ou coluna de autor',
+      },
+    },
     {
       name: 'title',
       type: 'text',
@@ -211,6 +227,15 @@ export const Posts: CollectionConfig<'posts'> = {
         {
           name: 'name',
           type: 'text',
+        },
+        {
+          name: 'slug',
+          type: 'text',
+        },
+        {
+          name: 'avatar',
+          type: 'upload',
+          relationTo: 'media',
         },
       ],
     },
