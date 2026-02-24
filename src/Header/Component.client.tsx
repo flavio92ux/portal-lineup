@@ -13,33 +13,35 @@ interface HeaderClientProps {
 }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
-  /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
 
   useEffect(() => {
     setHeaderTheme(null)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+  }, [pathname, setHeaderTheme])
 
   useEffect(() => {
     if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [headerTheme])
+  }, [headerTheme, theme])
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold tracking-tight text-primary">
-            Lineup
-          </span>
-          <span className="text-xl font-bold tracking-tight text-foreground">
-            Brasil
-          </span>
-        </Link>
-        <HeaderNav data={data} />
+    <header
+      className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm"
+      {...(theme ? { 'data-theme': theme } : {})}
+    >
+      <div className="container flex h-14 items-center justify-between">
+        <div className="flex items-center gap-6">
+          <Link href="/" className="flex items-center gap-1.5">
+            <span className="text-xl font-extrabold tracking-tight text-foreground">
+              DIAL
+            </span>
+            <span className="text-[10px] font-semibold tracking-[0.25em] text-muted-foreground uppercase">
+              RADIO
+            </span>
+          </Link>
+          <HeaderNav data={data} />
+        </div>
       </div>
     </header>
   )

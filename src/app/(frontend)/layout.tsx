@@ -46,14 +46,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
   title: {
-    default: 'Lineup Brasil',
-    template: '%s | Lineup Brasil',
+    default: 'DIAL RADIO',
+    template: '%s | DIAL RADIO',
   },
   description:
-    'Lineup Brasil - As principais noticias, colunas e analises dos melhores redatores do Brasil.',
+    'DIAL RADIO - As principais noticias sobre radio e TV do Brasil.',
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
-    creator: '@lineupbrasil',
+    creator: '@dialradio',
   },
 }

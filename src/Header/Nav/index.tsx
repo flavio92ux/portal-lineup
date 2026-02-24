@@ -6,20 +6,35 @@ import type { Header as HeaderType } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import Link from 'next/link'
-import { SearchIcon } from 'lucide-react'
+import { SearchIcon, UserCircle } from 'lucide-react'
+import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 
 export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = data?.navItems || []
 
   return (
-    <nav className="flex gap-3 items-center">
+    <nav className="flex items-center gap-1">
       {navItems.map(({ link }, i) => {
-        return <CMSLink key={i} {...link} appearance="link" />
+        return (
+          <CMSLink
+            key={i}
+            {...link}
+            appearance="inline"
+            className="text-xs font-medium uppercase tracking-wide text-muted-foreground hover:text-foreground transition-colors px-2 py-1"
+          />
+        )
       })}
-      <Link href="/search">
-        <span className="sr-only">Search</span>
-        <SearchIcon className="w-5 text-primary" />
-      </Link>
+      <div className="flex items-center gap-2 ml-4">
+        <ThemeSelector />
+        <Link href="/search" className="text-muted-foreground hover:text-foreground transition-colors">
+          <span className="sr-only">Buscar</span>
+          <SearchIcon className="w-4 h-4" />
+        </Link>
+        <Link href="/admin" className="text-muted-foreground hover:text-foreground transition-colors">
+          <span className="sr-only">Perfil</span>
+          <UserCircle className="w-5 h-5" />
+        </Link>
+      </div>
     </nav>
   )
 }
