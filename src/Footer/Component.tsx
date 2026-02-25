@@ -12,7 +12,7 @@ export async function Footer() {
   const navItems = footerData?.navItems || []
 
   return (
-    <footer className="mt-auto border-t border-border bg-background text-foreground">
+    <footer className="mt-auto border-t border-blue-700 bg-blue-700 text-white">
       <div className="container py-12">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           {/* Footer Nav Links */}
@@ -20,7 +20,7 @@ export async function Footer() {
             {navItems.map(({ link }, i) => {
               return (
                 <CMSLink
-                  className="text-sm text-primary hover:text-primary/80 transition-colors"
+                  className="text-sm text-white hover:text-white/80 transition-colors"
                   key={i}
                   {...link}
                 />
@@ -31,12 +31,8 @@ export async function Footer() {
           {/* Center Logo */}
           <div className="flex flex-col items-center gap-2">
             <Link href="/" className="flex flex-col items-center">
-              <span className="text-4xl font-extrabold tracking-tight text-foreground">
-                DIAL
-              </span>
-              <span className="text-sm font-semibold tracking-[0.35em] text-muted-foreground uppercase">
-                RADIO
-              </span>
+              <span className="text-4xl font-extrabold tracking-tight">DIAL</span>
+              <span className="text-sm font-semibold tracking-[0.35em] uppercase">RADIO</span>
             </Link>
           </div>
 
@@ -46,7 +42,7 @@ export async function Footer() {
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-white hover:text-white/80 transition-colors"
               aria-label="Instagram"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -57,7 +53,7 @@ export async function Footer() {
               href="https://twitter.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-white hover:text-white/80 transition-colors"
               aria-label="X (Twitter)"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -68,7 +64,7 @@ export async function Footer() {
               href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-white hover:text-white/80 transition-colors"
               aria-label="Facebook"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -79,13 +75,11 @@ export async function Footer() {
         </div>
 
         {/* Bottom tagline */}
-        <div className="mt-8 pt-6 border-t border-border text-center">
-          <p className="text-xs text-muted-foreground">
+        <div className="mt-8 pt-6 border-t border-white/20 text-center">
+          <p className="text-xs opacity-80">
             A melhor emissora e aquela que fala diretamente com voce. Somos apaixonados por radio.
           </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            {'Desenvolvido por joaosoares.real - 2026'}
-          </p>
+          <p className="text-xs opacity-80 mt-1">{'Desenvolvido por joaosoares.real - 2026'}</p>
         </div>
       </div>
     </footer>

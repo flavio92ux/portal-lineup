@@ -20,17 +20,23 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
             key={i}
             {...link}
             appearance="inline"
-            className="text-xs font-medium uppercase tracking-wide text-muted-foreground hover:text-foreground transition-colors px-2 py-1"
+            className="text-xs font-medium uppercase tracking-wide hover:text-foreground transition-colors px-2 py-1"
           />
         )
       })}
       <div className="flex items-center gap-2 ml-4">
         <ThemeSelector />
-        <Link href="/search" className="text-muted-foreground hover:text-foreground transition-colors">
+        <Link
+          href="/search"
+          className="text-muted-foreground hover:text-foreground transition-colors"
+        >
           <span className="sr-only">Buscar</span>
           <SearchIcon className="w-4 h-4" />
         </Link>
-        <Link href="/admin" className="text-muted-foreground hover:text-foreground transition-colors">
+        <Link
+          href="/admin"
+          className="text-muted-foreground hover:text-foreground transition-colors"
+        >
           <span className="sr-only">Perfil</span>
           <UserCircle className="w-5 h-5" />
         </Link>

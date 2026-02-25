@@ -6,7 +6,6 @@ import React from 'react'
 
 import { HeroGrid } from '@/components/HeroGrid'
 import { ArticleListItem } from '@/components/ArticleListItem'
-import { SearchBar } from '@/components/SearchBar'
 import { Pagination } from '@/components/Pagination'
 
 export const dynamic = 'force-static'
@@ -64,11 +63,6 @@ export default async function HomePage() {
 
   return (
     <div className="pb-16">
-      {/* Search Bar */}
-      <div className="container py-4">
-        <SearchBar />
-      </div>
-
       {/* Hero Grid */}
       <section className="container mb-8">
         <HeroGrid posts={heroPosts} />
@@ -98,7 +92,6 @@ export default async function HomePage() {
 export function generateMetadata(): Metadata {
   return {
     title: 'DIAL RADIO - Portal de Noticias',
-    description:
-      'DIAL RADIO - As principais noticias sobre radio e TV do Brasil.',
+    description: 'DIAL RADIO - As principais noticias sobre radio e TV do Brasil.',
   }
 }
