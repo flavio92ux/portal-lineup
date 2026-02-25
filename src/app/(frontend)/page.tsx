@@ -70,12 +70,12 @@ export default async function HomePage() {
 
       {/* Divider */}
       <div className="container">
-        <p className="text-sm font-semibold text-muted-foreground mb-6">Saiba mais</p>
+        <p className="text-sm font-semibold text-muted-foreground mb-6">Últimas Notícias</p>
       </div>
 
       {/* Article List */}
       <section className="container">
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
           {latestPosts.map((post) => (
             <ArticleListItem key={post.slug} post={post} />
           ))}

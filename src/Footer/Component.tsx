@@ -76,10 +76,7 @@ export async function Footer() {
 
         {/* Bottom tagline */}
         <div className="mt-8 pt-6 border-t border-white/20 text-center">
-          <p className="text-xs opacity-80">
-            A melhor emissora e aquela que fala diretamente com voce. Somos apaixonados por radio.
-          </p>
-          <p className="text-xs opacity-80 mt-1">{'Desenvolvido por joaosoares.real - 2026'}</p>
+          <p className="text-xs opacity-80 mt-1">{'Desenvolvido por flavio92ux - 2026'}</p>
         </div>
       </div>
     </footer>
