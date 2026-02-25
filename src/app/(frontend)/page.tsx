@@ -70,7 +70,7 @@ export default async function HomePage() {
 
       {/* Divider */}
       <div className="container">
-        <p className="text-sm font-semibold text-muted-foreground mb-6">Últimas Notícias</p>
+        <p className="text-muted-foreground mb-6 text-sm font-semibold">Últimas Notícias</p>
       </div>
 
       {/* Article List */}
