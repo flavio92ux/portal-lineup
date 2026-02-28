@@ -30,13 +30,15 @@ export const Users: CollectionConfig = {
       type: 'text',
       required: true,
     },
-    {
-      ...slugField({ fieldToUse: 'name' }),
-      admin: {
-        ...(slugField({ fieldToUse: 'name' }).admin || {}),
-        condition: (data, siblingData, { operation }) => operation !== 'create',
+    ...slugField({
+      fieldToUse: 'name',
+      overrides: {
+        admin: {
+          position: 'sidebar',
+          condition: (data, siblingData, { operation }) => operation !== 'create',
+        },
       },
-    },
+    }),
     {
       name: 'avatar',
       type: 'upload',

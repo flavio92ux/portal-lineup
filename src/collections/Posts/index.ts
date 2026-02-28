@@ -239,7 +239,7 @@ export const Posts: CollectionConfig<'posts'> = {
         },
       ],
     },
-    slugField(),
+    ...slugField(),
   ],
   hooks: {
     afterChange: [revalidatePost],
