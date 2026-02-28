@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '../../access/anyone'
 import { authenticated } from '../../access/authenticated'
-import { slugField } from 'payload'
+import { slugField } from '@/fields/slug'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -30,13 +30,20 @@ export const Users: CollectionConfig = {
       type: 'text',
       required: true,
     },
-    slugField({ fieldToUse: 'name' }),
+    {
+      ...slugField({ fieldToUse: 'name' }),
+      admin: {
+        ...(slugField({ fieldToUse: 'name' }).admin || {}),
+        condition: (data, siblingData, { operation }) => operation !== 'create',
+      },
+    },
     {
       name: 'avatar',
       type: 'upload',
       relationTo: 'media',
       admin: {
         description: 'Foto de perfil do redator',
+        condition: (data, siblingData, { operation }) => operation !== 'create',
       },
     },
     {
@@ -44,6 +51,7 @@ export const Users: CollectionConfig = {
       type: 'richText',
       admin: {
         description: 'Biografia do redator',
+        condition: (data, siblingData, { operation }) => operation !== 'create',
       },
     },
     {
@@ -53,6 +61,9 @@ export const Users: CollectionConfig = {
       labels: {
         singular: 'Rede Social',
         plural: 'Redes Sociais',
+      },
+      admin: {
+        condition: (data, siblingData, { operation }) => operation !== 'create',
       },
       fields: [
         {

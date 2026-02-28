@@ -11,21 +11,24 @@ services:
     working_dir: /home/node/app/
     command: sh -c "yarn install && yarn dev"
     depends_on:
-      - mongo
+      - postgress
     env_file:
       - .env
 
-  mongo:
-    image: mongo:latest
+  postgress:
+    image: postgres:18.2-alpine3.22
+    container_name: payload_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: portal_payload
     ports:
-      - '27017:27017'
-    command:
-      - --storageEngine=wiredTiger
+      - '5432:5432'
     volumes:
-      - data:/data/db
-    logging:
-      driver: none
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
   data:
   node_modules:
+  postgres_data:
