@@ -24,7 +24,12 @@ export default buildConfig({
     fallbackLanguage: 'pt',
     supportedLanguages: { pt },
     translations: {
-      pt: pt,
+      pt: {
+        pt,
+        general: {
+          welcome: 'Seja bem vindo!',
+        },
+      },
     },
   },
   admin: {
