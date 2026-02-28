@@ -90,6 +90,22 @@ export const Posts: CollectionConfig<'posts'> = {
       required: true,
     },
     {
+      name: 'headline',
+      type: 'text',
+      label: 'Chamada',
+      admin: {
+        description: 'Texto curto de destaque para chamar atenção do leitor',
+      },
+    },
+    {
+      name: 'subtitle',
+      type: 'text',
+      label: 'Subtítulo',
+      admin: {
+        description: 'Texto complementar ao título principal',
+      },
+    },
+    {
       name: 'heroImage',
       type: 'upload',
       label: 'Imagem de Capa',
@@ -152,11 +168,22 @@ export const Posts: CollectionConfig<'posts'> = {
         }),
         MetaTitleField({
           hasGenerateFn: true,
+          overrides: {
+            label: 'Título SEO',
+          },
         }),
         MetaImageField({
           relationTo: 'media',
+          overrides: {
+            label: 'Imagem SEO',
+          },
         }),
-        MetaDescriptionField({}),
+        MetaDescriptionField({
+          hasGenerateFn: true,
+          overrides: {
+            label: 'Descrição SEO',
+          },
+        }),
         PreviewField({
           hasGenerateFn: true,
           titlePath: 'meta.title',

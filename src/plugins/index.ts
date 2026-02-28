@@ -5,7 +5,7 @@ import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
-import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
+import { GenerateDescription, GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
@@ -15,6 +15,13 @@ import { getServerSideURL } from '@/utilities/getURL'
 
 const generateTitle: GenerateTitle<Post> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Lineup Brasil` : 'Lineup Brasil'
+}
+
+const generateDescription: GenerateDescription<Post> = ({ doc }) => {
+  // Use headline first, then subtitle, then a default
+  if (doc?.headline) return doc.headline
+  if (doc?.subtitle) return doc.subtitle
+  return doc?.title ? `Leia mais sobre: ${doc.title}` : ''
 }
 
 const generateURL: GenerateURL<Post> = ({ doc }) => {
@@ -52,6 +59,7 @@ export const plugins: Plugin[] = [
   }),
   seoPlugin({
     generateTitle,
+    generateDescription,
     generateURL,
   }),
   formBuilderPlugin({
