@@ -71,6 +71,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'type',
       type: 'select',
+      label: 'Tipo',
       required: true,
       defaultValue: 'news',
       options: [
@@ -85,11 +86,13 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'title',
       type: 'text',
+      label: 'Título',
       required: true,
     },
     {
       name: 'heroImage',
       type: 'upload',
+      label: 'Imagem de Capa',
       relationTo: 'media',
     },
     {
@@ -113,6 +116,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'relatedPosts',
       type: 'relationship',
+      label: 'Posts Relacionados',
       admin: {
         position: 'sidebar',
       },
@@ -129,6 +133,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'categories',
       type: 'relationship',
+      label: 'Categorias',
       admin: {
         position: 'sidebar',
       },
@@ -138,6 +143,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'meta',
       type: 'group',
+      label: 'SEO',
       fields: [
         OverviewField({
           titlePath: 'meta.title',
@@ -161,6 +167,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'publishedAt',
       type: 'date',
+      label: 'Publicado em',
       admin: {
         date: {
           pickerAppearance: 'dayAndTime',
@@ -181,6 +188,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'authors',
       type: 'relationship',
+      label: 'Autores',
       admin: {
         position: 'sidebar',
       },
