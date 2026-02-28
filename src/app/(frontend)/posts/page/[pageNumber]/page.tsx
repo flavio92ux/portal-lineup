@@ -1,12 +1,11 @@
 import type { Metadata } from 'next/types'
 
-import { CollectionArchive } from '@/components/CollectionArchive'
+import { ArticleListItem } from '@/components/ArticleListItem'
 import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
-import PageClient from './page.client'
 import { notFound } from 'next/navigation'
 
 export const revalidate = 600
@@ -28,30 +27,45 @@ export default async function Page({ params: paramsPromise }: Args) {
   const posts = await payload.find({
     collection: 'posts',
     depth: 1,
-    limit: 12,
+    limit: 15,
     page: sanitizedPageNumber,
     overrideAccess: false,
+    sort: '-publishedAt',
+    select: {
+      title: true,
+      slug: true,
+      type: true,
+      heroImage: true,
+      categories: true,
+      publishedAt: true,
+      meta: true,
+      authors: true,
+      populatedAuthors: true,
+    },
   })
 
   return (
-    <div className="pt-24 pb-24">
-      <PageClient />
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none">
-          <h1>Posts</h1>
-        </div>
+    <div className="pt-8 pb-16">
+      <div className="container mb-6">
+        <h1 className="text-2xl font-bold text-foreground">Publicacoes</h1>
       </div>
 
-      <div className="container mb-8">
+      <div className="container mb-4">
         <PageRange
           collection="posts"
           currentPage={posts.page}
-          limit={12}
+          limit={15}
           totalDocs={posts.totalDocs}
         />
       </div>
 
-      <CollectionArchive posts={posts.docs} />
+      <div className="container">
+        <div className="flex flex-col">
+          {posts.docs.map((post) => (
+            <ArticleListItem key={post.slug} post={post} />
+          ))}
+        </div>
+      </div>
 
       <div className="container">
         {posts?.page && posts?.totalPages > 1 && (
@@ -65,7 +79,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise
   return {
-    title: `Payload Website Template Posts Page ${pageNumber || ''}`,
+    title: `Publicacoes - Pagina ${pageNumber || ''} | DIAL RADIO`,
   }
 }
 

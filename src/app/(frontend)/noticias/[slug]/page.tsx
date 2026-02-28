@@ -50,25 +50,24 @@ export default async function NoticiaPage({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   return (
-    <article className="pt-16 pb-16">
-      <PageClient />
-
+    <article className="pt-8 pb-16">
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
 
       <PostHero post={post} />
 
-      <div className="flex flex-col items-center gap-4 pt-8">
-        <div className="container">
-          <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />
-          {post.relatedPosts && post.relatedPosts.length > 0 && (
+      <div className="container max-w-[48rem] mx-auto">
+        <RichText className="prose-sm md:prose dark:prose-invert max-w-none" data={post.content} enableGutter={false} />
+        {post.relatedPosts && post.relatedPosts.length > 0 && (
+          <div className="mt-12 pt-8 border-t border-border">
+            <h3 className="text-base font-semibold text-foreground mb-6">Leia tambem</h3>
             <RelatedPosts
-              className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
+              className="!p-0"
               docs={post.relatedPosts.filter((post) => typeof post === 'object')}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </article>
   )
