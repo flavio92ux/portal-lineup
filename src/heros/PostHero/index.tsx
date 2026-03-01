@@ -15,31 +15,29 @@ export const PostHero: React.FC<{
     populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
 
   return (
-    <div className="container max-w-[48rem] mx-auto">
+    <div className="container mx-auto max-w-[48rem]">
       {/* Versal (Headline) */}
       {headline && (
         <div className="mb-4">
-          <span className="text-xs font-bold uppercase tracking-wider text-primary">
+          <span className="text-primary text-xs font-bold uppercase tracking-wider">
             {headline}
           </span>
         </div>
       )}
 
       {/* Title */}
-      <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-foreground mb-2 text-balance">
+      <h1 className="text-foreground mb-2 text-balance text-2xl font-bold leading-tight md:text-3xl lg:text-4xl">
         {title}
       </h1>
 
       {/* Subtitle */}
       {subtitle && (
-        <p className="text-base md:text-lg text-muted-foreground mb-4 text-pretty">
-          {subtitle}
-        </p>
+        <p className="text-muted-foreground mb-4 text-pretty text-base md:text-lg">{subtitle}</p>
       )}
 
       {/* Date */}
       {publishedAt && (
-        <p className="text-xs text-muted-foreground mb-6">
+        <p className="text-muted-foreground mb-6 text-xs">
           {'Publicado em '}
           <time dateTime={publishedAt}>{formatDateTime(publishedAt)}</time>
         </p>
@@ -47,16 +45,16 @@ export const PostHero: React.FC<{
 
       {/* Hero Image */}
       {heroImage && typeof heroImage !== 'string' && typeof heroImage !== 'number' && (
-        <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-6 bg-secondary">
+        <div className="bg-secondary relative mb-6 aspect-video w-full overflow-hidden rounded-lg">
           <Media fill priority imgClassName="object-cover" resource={heroImage} />
         </div>
       )}
 
       {/* Author */}
       {hasAuthors && (
-        <div className="py-4 border-b border-border mb-6">
-          <p className="text-sm text-primary font-semibold">
-            {'Do portal DIAL RADIO: '}
+        <div className="border-border mb-6 border-b py-4">
+          <p className="text-primary text-sm font-semibold">
+            {'De Portal Lineup: '}
             {formatAuthors(populatedAuthors)}
           </p>
         </div>

@@ -63,7 +63,7 @@ export default async function NoticiasPage() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Notícias - DIAL RADIO',
+    title: 'Notícias - PORTAL LINEUP',
     description: 'As principais notícias sobre rádio e TV do Brasil.',
   }
 }

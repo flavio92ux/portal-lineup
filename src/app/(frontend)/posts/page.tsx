@@ -33,9 +33,9 @@ export default async function Page() {
   })
 
   return (
-    <div className="pt-8 pb-16">
+    <div className="pb-16 pt-8">
       <div className="container mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Todas as Publicacoes</h1>
+        <h1 className="text-foreground text-2xl font-bold">Todas as Publicacoes</h1>
       </div>
 
       <div className="container mb-4">
@@ -66,6 +66,6 @@ export default async function Page() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Publicacoes | DIAL RADIO',
+    title: 'Publicacoes | PORTAL LINEUP',
   }
 }
