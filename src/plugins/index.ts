@@ -3,6 +3,7 @@ import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
+import { s3Storage } from '@payloadcms/storage-s3'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { GenerateDescription, GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
@@ -31,6 +32,27 @@ const generateURL: GenerateURL<Post> = ({ doc }) => {
 }
 
 export const plugins: Plugin[] = [
+  // Cloudflare R2 Storage Configuration
+  s3Storage({
+    collections: {
+      media: {
+        prefix: 'media',
+        generateFileURL: ({ filename, prefix }) => {
+          return `https://${process.env.R2_BUCKET_NAME}.${process.env.R2_ENDPOINT?.replace('https://', '')}/${prefix}/${filename}`
+        },
+      },
+    },
+    bucket: process.env.R2_BUCKET_NAME || '',
+    config: {
+      credentials: {
+        accessKeyId: process.env.R2_ACCESS_KEY_ID || '',
+        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || '',
+      },
+      endpoint: process.env.R2_ENDPOINT || '',
+      region: 'auto',
+      forcePathStyle: true,
+    },
+  }),
   redirectsPlugin({
     collections: ['posts'],
     overrides: {

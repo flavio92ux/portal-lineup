@@ -44,6 +44,9 @@ export const Media: CollectionConfig = {
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: 'thumbnail',
     focalPoint: true,
+    // Limite de 5MB para uploads de imagens
+    filesizeLimit: 5 * 1024 * 1024, // 5MB in bytes
+    mimeTypes: ['image/*'],
     imageSizes: [
       {
         name: 'thumbnail',
