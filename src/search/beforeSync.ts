@@ -7,14 +7,18 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
 
   const { slug, id, categories, title, meta } = originalDoc
 
+  const originalMeta = originalDoc.meta as { title?: string; description?: string; image?: { id?: string } | string } | undefined
+  
   const modifiedDoc: DocToSync = {
     ...searchDoc,
     slug,
     meta: {
       ...meta,
       title: meta?.title || title,
-      image: meta?.image?.id || meta?.image,
       description: meta?.description,
+      ...(originalMeta?.image && {
+        image: typeof originalMeta.image === 'object' ? originalMeta.image?.id : originalMeta.image,
+      }),
     },
     categories: [],
   }
