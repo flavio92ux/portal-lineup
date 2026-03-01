@@ -50,13 +50,53 @@ export const Media: CollectionConfig = {
         formatOptions: { format: 'webp', options: { quality: 70 } },
       },
       {
+        name: 'avatar',
+        width: 150,
+        height: 150,
+        crop: 'center',
+        formatOptions: { format: 'webp', options: { quality: 80 } },
+      },
+      {
+        name: 'small',
+        width: 480,
+        formatOptions: { format: 'webp', options: { quality: 80 } },
+      },
+      {
+        name: 'medium',
+        width: 768,
+        formatOptions: { format: 'webp', options: { quality: 80 } },
+      },
+      {
+        name: 'large',
+        width: 1024,
+        formatOptions: { format: 'webp', options: { quality: 85 } },
+      },
+      {
+        name: 'xlarge',
+        width: 1440,
+        formatOptions: { format: 'webp', options: { quality: 85 } },
+      },
+      {
+        name: 'card',
+        width: 400,
+        height: 300,
+        crop: 'center',
+        formatOptions: { format: 'webp', options: { quality: 80 } },
+      },
+      {
+        name: 'hero',
+        width: 1920,
+        height: 400,
+        crop: 'center',
+        formatOptions: { format: 'webp', options: { quality: 88 } },
+      },
+      {
         name: 'og',
         width: 1200,
         height: 630,
         crop: 'center',
         formatOptions: { format: 'webp' },
       },
-      // ... você pode manter os outros tamanhos aqui seguindo o mesmo padrão
     ],
   },
 }
