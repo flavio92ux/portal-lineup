@@ -21,7 +21,7 @@ const postSelectFields = {
   populatedAuthors: true,
 } as const
 
-export default async function HomePage() {
+export default async function ColunasPage() {
   const payload = await getPayload({ config: configPromise })
 
   const heroPostsResult = await payload.find({
@@ -32,6 +32,7 @@ export default async function HomePage() {
     sort: '-publishedAt',
     where: {
       _status: { equals: 'published' },
+      type: { equals: 'column' },
     },
     select: postSelectFields,
   })
@@ -44,6 +45,7 @@ export default async function HomePage() {
     sort: '-publishedAt',
     where: {
       _status: { equals: 'published' },
+      type: { equals: 'column' },
     },
     select: postSelectFields,
   })
@@ -52,7 +54,7 @@ export default async function HomePage() {
     <PostsListing
       heroPosts={heroPostsResult.docs}
       latestPosts={latestPostsResult.docs}
-      sectionTitle="Últimas Publicações"
+      sectionTitle="Últimas Colunas"
       currentPage={latestPostsResult.page}
       totalPages={latestPostsResult.totalPages}
     />
@@ -61,7 +63,7 @@ export default async function HomePage() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'DIAL RADIO - Portal de Noticias',
-    description: 'DIAL RADIO - As principais noticias sobre radio e TV do Brasil.',
+    title: 'Colunas - DIAL RADIO',
+    description: 'As colunas e artigos de opinião do portal DIAL RADIO.',
   }
 }

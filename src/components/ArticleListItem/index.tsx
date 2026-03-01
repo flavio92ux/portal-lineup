@@ -4,19 +4,12 @@ import Link from 'next/link'
 import type { Post } from '@/payload-types'
 import { Media } from '@/components/Media'
 import { formatDateTime } from '@/utilities/formatDateTime'
+import { getPostUrl } from '@/utilities/getPostUrl'
 
 export type ArticleListItemData = Pick<
   Post,
   'slug' | 'title' | 'meta' | 'categories' | 'publishedAt' | 'heroImage' | 'type' | 'populatedAuthors'
 >
-
-function getPostHref(post: ArticleListItemData) {
-  if (post.type === 'column') {
-    const authorSlug = post.populatedAuthors?.[0]?.slug
-    if (authorSlug) return `/autor/${authorSlug}/${post.slug}`
-  }
-  return `/noticias/${post.slug}`
-}
 
 export const ArticleListItem: React.FC<{ post: ArticleListItemData }> = ({ post }) => {
   const { title, meta, publishedAt, heroImage } = post
@@ -27,7 +20,7 @@ export const ArticleListItem: React.FC<{ post: ArticleListItemData }> = ({ post 
 
   return (
     <Link
-      href={getPostHref(post)}
+      href={getPostUrl(post)}
       className="flex gap-4 py-5 border-b border-border group hover:bg-secondary/30 transition-colors px-4 -mx-4 rounded-lg"
     >
       {/* Thumbnail */}

@@ -56,6 +56,7 @@ export const Posts: CollectionConfig<'posts'> = {
           slug: data?.slug,
           collection: 'posts',
           req,
+          postType: data?.type as 'news' | 'column',
         }),
     },
     preview: (data, { req }) =>
@@ -63,6 +64,7 @@ export const Posts: CollectionConfig<'posts'> = {
         slug: data?.slug as string,
         collection: 'posts',
         req,
+        postType: data?.type as 'news' | 'column',
       }),
     useAsTitle: 'title',
   },

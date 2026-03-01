@@ -71,6 +71,7 @@ export const plugins: Plugin[] = [
     generateDescription,
     generateURL,
     generateImage,
+    uploadsCollection: false, // Omit SEO image field - uses heroImage via generateImage
   }),
   formBuilderPlugin({
     fields: {

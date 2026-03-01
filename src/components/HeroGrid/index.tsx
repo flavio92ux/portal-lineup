@@ -3,19 +3,12 @@ import Link from 'next/link'
 
 import type { Post } from '@/payload-types'
 import { Media } from '@/components/Media'
+import { getPostUrl } from '@/utilities/getPostUrl'
 
 export type HeroPostData = Pick<
   Post,
   'slug' | 'title' | 'meta' | 'categories' | 'publishedAt' | 'heroImage' | 'type' | 'populatedAuthors'
 >
-
-function getPostHref(post: HeroPostData) {
-  if (post.type === 'column') {
-    const authorSlug = post.populatedAuthors?.[0]?.slug
-    if (authorSlug) return `/autor/${authorSlug}/${post.slug}`
-  }
-  return `/noticias/${post.slug}`
-}
 
 export const HeroGrid: React.FC<{ posts: HeroPostData[] }> = ({ posts }) => {
   if (!posts || posts.length === 0) return null
@@ -27,7 +20,7 @@ export const HeroGrid: React.FC<{ posts: HeroPostData[] }> = ({ posts }) => {
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-3">
       {/* Main Featured Post */}
       <Link
-        href={getPostHref(mainPost)}
+        href={getPostUrl(mainPost)}
         className="lg:col-span-3 relative rounded-xl overflow-hidden group min-h-[16rem] lg:min-h-[22rem] flex items-end"
       >
         {mainPost.heroImage && typeof mainPost.heroImage !== 'string' && typeof mainPost.heroImage !== 'number' && (
@@ -70,7 +63,7 @@ export const HeroGrid: React.FC<{ posts: HeroPostData[] }> = ({ posts }) => {
         {sidePosts.map((post) => (
           <Link
             key={post.slug}
-            href={getPostHref(post)}
+            href={getPostUrl(post)}
             className="relative rounded-xl overflow-hidden group flex-1 min-h-[10rem] flex items-end"
           >
             {post.heroImage && typeof post.heroImage !== 'string' && typeof post.heroImage !== 'number' && (

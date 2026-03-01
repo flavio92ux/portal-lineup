@@ -7,27 +7,27 @@ import React, { Fragment } from 'react'
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import { getPostUrl } from '@/utilities/getPostUrl'
 
-export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
+export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title' | 'type'>
 
 export const Card: React.FC<{
   alignItems?: 'center'
   className?: string
   doc?: CardPostData
-  relationTo?: 'posts'
   showCategories?: boolean
   title?: string
 }> = (props) => {
   const { card, link } = useClickableCard({})
-  const { className, doc, relationTo, showCategories, title: titleFromProps } = props
+  const { className, doc, showCategories, title: titleFromProps } = props
 
-  const { slug, categories, meta, title } = doc || {}
+  const { slug, categories, meta, title, type } = doc || {}
   const { description, image: metaImage } = meta || {}
 
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
   const titleToUse = titleFromProps || title
   const sanitizedDescription = description?.replace(/\s/g, ' ')
-  const href = `/${relationTo}/${slug}`
+  const href = doc ? getPostUrl(doc) : '/'
 
   return (
     <article
