@@ -10,7 +10,9 @@ export const dynamic = 'force-static'
 export const revalidate = 600
 
 const postSelectFields = {
+  versal: true,
   title: true,
+  subtitle: true,
   slug: true,
   type: true,
   heroImage: true,

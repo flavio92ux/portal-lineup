@@ -167,6 +167,9 @@ export interface Post {
    * Texto complementar ao título principal
    */
   subtitle?: string | null;
+  /**
+   * Esta imagem também será utilizada como imagem SEO para compartilhamento em redes sociais
+   */
   heroImage?: (number | null) | Media;
   content: {
     root: {
@@ -187,10 +190,6 @@ export interface Post {
   categories?: (number | Category)[] | null;
   meta?: {
     title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
     description?: string | null;
   };
   publishedAt?: string | null;
@@ -1098,7 +1097,6 @@ export interface PostsSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
-        image?: T;
         description?: T;
       };
   publishedAt?: T;
