@@ -38,7 +38,9 @@ export const plugins: Plugin[] = [
       media: {
         prefix: 'media',
         generateFileURL: ({ filename, prefix }) => {
-          return `https://${process.env.R2_BUCKET_NAME}.${process.env.R2_ENDPOINT?.replace('https://', '')}/${prefix}/${filename}`
+          // Use R2_PUBLIC_URL for public access (custom domain or r2.dev URL)
+          const publicUrl = process.env.R2_PUBLIC_URL
+          return `${publicUrl}/${prefix}/${filename}`
         },
       },
     },
@@ -50,7 +52,6 @@ export const plugins: Plugin[] = [
       },
       endpoint: process.env.R2_ENDPOINT || '',
       region: 'auto',
-      forcePathStyle: true,
     },
   }),
   redirectsPlugin({
