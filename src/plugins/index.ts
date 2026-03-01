@@ -5,12 +5,12 @@ import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
-import { GenerateDescription, GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
+import { GenerateDescription, GenerateImage, GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 
-import { Post } from '@/payload-types'
+import { Media, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
 const generateTitle: GenerateTitle<Post> = ({ doc }) => {
@@ -28,6 +28,15 @@ const generateURL: GenerateURL<Post> = ({ doc }) => {
   const url = getServerSideURL()
 
   return doc?.slug ? `${url}/posts/${doc.slug}` : url
+}
+
+const generateImage: GenerateImage<Post> = ({ doc }) => {
+  // Use the heroImage (cover image) as the SEO image
+  const heroImage = doc?.heroImage as Media | undefined
+  if (heroImage && typeof heroImage === 'object') {
+    return heroImage
+  }
+  return undefined
 }
 
 export const plugins: Plugin[] = [
@@ -61,6 +70,7 @@ export const plugins: Plugin[] = [
     generateTitle,
     generateDescription,
     generateURL,
+    generateImage,
   }),
   formBuilderPlugin({
     fields: {

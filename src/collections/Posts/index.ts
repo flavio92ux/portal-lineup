@@ -20,7 +20,6 @@ import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 
 import {
   MetaDescriptionField,
-  MetaImageField,
   MetaTitleField,
   OverviewField,
   PreviewField,
@@ -44,8 +43,8 @@ export const Posts: CollectionConfig<'posts'> = {
     type: true,
     categories: true,
     authors: true,
+    heroImage: true,
     meta: {
-      image: true,
       description: true,
     },
   },
@@ -110,6 +109,18 @@ export const Posts: CollectionConfig<'posts'> = {
       type: 'upload',
       label: 'Imagem de Capa',
       relationTo: 'media',
+      admin: {
+        description: 'Esta imagem também será utilizada como imagem SEO para compartilhamento em redes sociais',
+      },
+    },
+    {
+      type: 'ui',
+      name: 'contentLabel',
+      admin: {
+        components: {
+          Field: '/components/ContentSectionLabel',
+        },
+      },
     },
     {
       name: 'content',
@@ -164,18 +175,12 @@ export const Posts: CollectionConfig<'posts'> = {
         OverviewField({
           titlePath: 'meta.title',
           descriptionPath: 'meta.description',
-          imagePath: 'meta.image',
+          imagePath: 'heroImage',
         }),
         MetaTitleField({
           hasGenerateFn: true,
           overrides: {
             label: 'Título SEO',
-          },
-        }),
-        MetaImageField({
-          relationTo: 'media',
-          overrides: {
-            label: 'Imagem SEO',
           },
         }),
         MetaDescriptionField({
