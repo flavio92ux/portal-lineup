@@ -32,13 +32,13 @@ export const Card: React.FC<{
   return (
     <article
       className={cn(
-        'rounded-lg overflow-hidden bg-card border border-border hover:cursor-pointer group transition-colors hover:bg-secondary/50',
+        'bg-card border-border hover:bg-secondary/50 group overflow-hidden rounded-lg border transition-colors hover:cursor-pointer',
         className,
       )}
       ref={card.ref}
     >
-      <div className="relative w-full aspect-video bg-secondary">
-        {!metaImage && <div className="w-full h-full bg-secondary" />}
+      <div className="bg-secondary relative aspect-video w-full">
+        {!metaImage && <div className="bg-secondary h-full w-full" />}
         {metaImage && typeof metaImage !== 'string' && (
           <Media
             fill
@@ -50,19 +50,19 @@ export const Card: React.FC<{
       </div>
       <div className="p-3">
         {titleToUse && (
-          <h3 className="text-sm font-semibold text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+          <h3 className="text-foreground group-hover:text-primary line-clamp-2 text-sm font-semibold leading-snug transition-colors">
             <Link href={href} ref={link.ref}>
               {titleToUse}
             </Link>
           </h3>
         )}
         {sanitizedDescription && (
-          <p className="text-xs text-muted-foreground mt-1.5 line-clamp-3 leading-relaxed">
+          <p className="text-muted-foreground mt-1.5 line-clamp-3 text-xs leading-relaxed">
             {sanitizedDescription}
           </p>
         )}
         {showCategories && hasCategories && (
-          <div className="mt-2 text-[10px] font-semibold uppercase tracking-wider text-primary">
+          <div className="text-primary mt-2 text-[10px] font-semibold uppercase tracking-wider">
             {categories?.map((category, index) => {
               if (typeof category === 'object') {
                 const categoryTitle = category.title || 'Untitled'

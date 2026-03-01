@@ -71,7 +71,7 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
   return (
     <div className="field-type slug-field-component">
       <div className="label-wrapper">
-        <FieldLabel field={field} htmlFor={`field-${path}`} label={label} />
+        <FieldLabel htmlFor={`field-${path}`} label={label} />
       </div>
       <TextInput
         value={value || ''}

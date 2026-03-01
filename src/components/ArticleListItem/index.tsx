@@ -8,46 +8,48 @@ import { getPostUrl } from '@/utilities/getPostUrl'
 
 export type ArticleListItemData = Pick<
   Post,
-  'slug' | 'title' | 'meta' | 'categories' | 'publishedAt' | 'heroImage' | 'type' | 'populatedAuthors'
+  | 'slug'
+  | 'title'
+  | 'meta'
+  | 'categories'
+  | 'publishedAt'
+  | 'heroImage'
+  | 'type'
+  | 'populatedAuthors'
 >
 
 export const ArticleListItem: React.FC<{ post: ArticleListItemData }> = ({ post }) => {
   const { title, meta, publishedAt, heroImage } = post
   const description = meta?.description
-  const metaImage = meta?.image
 
-  const imageSource = heroImage || metaImage
+  const imageSource = heroImage
 
   return (
     <Link
       href={getPostUrl(post)}
-      className="flex gap-4 py-5 border-b border-border group hover:bg-secondary/30 transition-colors px-4 -mx-4 rounded-lg"
+      className="border-border hover:bg-secondary/30 group -mx-4 flex gap-4 rounded-lg border-b px-4 py-5 transition-colors"
     >
       {/* Thumbnail */}
-      <div className="relative w-28 h-20 md:w-36 md:h-24 rounded-lg overflow-hidden shrink-0 bg-secondary">
+      <div className="bg-secondary relative h-20 w-28 shrink-0 overflow-hidden rounded-lg md:h-24 md:w-36">
         {imageSource && typeof imageSource !== 'number' && typeof imageSource !== 'string' ? (
-          <Media
-            fill
-            imgClassName="object-cover"
-            resource={imageSource as Post['heroImage']}
-          />
+          <Media fill imgClassName="object-cover" resource={imageSource as Post['heroImage']} />
         ) : (
-          <div className="w-full h-full bg-secondary" />
+          <div className="bg-secondary h-full w-full" />
         )}
       </div>
 
       {/* Content */}
-      <div className="flex flex-col justify-center flex-1 min-w-0">
-        <h3 className="text-sm md:text-base font-semibold text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+      <div className="flex min-w-0 flex-1 flex-col justify-center">
+        <h3 className="text-foreground group-hover:text-primary line-clamp-2 text-sm font-semibold leading-snug transition-colors md:text-base">
           {title}
         </h3>
         {description && (
-          <p className="text-xs md:text-sm text-muted-foreground mt-1 line-clamp-2 leading-relaxed">
+          <p className="text-muted-foreground mt-1 line-clamp-2 text-xs leading-relaxed md:text-sm">
             {description}
           </p>
         )}
         {publishedAt && (
-          <p className="text-[11px] text-muted-foreground mt-2">
+          <p className="text-muted-foreground mt-2 text-[11px]">
             {'Publicado em: '}
             {formatDateTime(publishedAt)}
           </p>
