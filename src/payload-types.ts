@@ -158,6 +158,8 @@ export interface Post {
    * Tipo de publicacao: noticia ou coluna de autor
    */
   type: 'news' | 'column';
+
+  doc?: string | null;
   /**
    * Texto curto de destaque para chamar atenção do leitor
    */
@@ -191,6 +193,7 @@ export interface Post {
   meta?: {
     title?: string | null;
     description?: string | null;
+    image?: string | null
   };
   publishedAt?: string | null;
   authors?: (number | User)[] | null;

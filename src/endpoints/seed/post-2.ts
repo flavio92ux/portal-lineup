@@ -9,6 +9,7 @@ export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
   return {
     slug: 'global-gaze',
     _status: 'published',
+    type: 'news',
     authors: [author],
     content: {
       root: {
@@ -223,7 +224,6 @@ export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
     meta: {
       description:
         'Explore the untold and overlooked. A magnified view into the corners of the world, where every story deserves its spotlight.',
-      image: heroImage.id,
       title: 'Global Gaze: Beyond the Headlines',
     },
     relatedPosts: [], // this is populated by the seed script

@@ -15,6 +15,7 @@ export const post1: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
   return {
     slug: 'digital-horizons',
     _status: 'published',
+    type: 'news',
     authors: [author],
     content: {
       root: {
@@ -306,7 +307,6 @@ export const post1: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
     meta: {
       description:
         'Dive into the marvels of modern innovation, where the only constant is change. A journey where pixels and data converge to craft the future.',
-      image: heroImage.id,
       title: 'Digital Horizons: A Glimpse into Tomorrow',
     },
     relatedPosts: [], // this is populated by the seed script

@@ -20,15 +20,24 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
 }
 
 export const generateMeta = async (args: {
-  doc: Partial<Post> | null
+  doc:
+    | Partial<Post>
+    | {
+        slug?: string | null
+        heroImage?: (number | null) | Media
+        meta?: {
+          title?: string | null
+          description?: string | null
+          image?: (number | null) | Media
+        }
+      }
+    | null
 }): Promise<Metadata> => {
   const { doc } = args
 
-  const ogImage = getImageURL(doc?.meta?.image)
+  const ogImage = getImageURL(doc?.heroImage)
 
-  const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | Lineup Brasil'
-    : 'Lineup Brasil'
+  const title = doc?.meta?.title ? doc?.meta?.title + ' | Lineup Brasil' : 'Lineup Brasil'
 
   return {
     description: doc?.meta?.description,

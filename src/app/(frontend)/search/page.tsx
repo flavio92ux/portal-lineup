@@ -22,13 +22,15 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
     depth: 1,
     limit: 12,
     select: {
+      type: true,
       title: true,
       slug: true,
+      heroImage: true,
       categories: true,
       meta: true,
+      authors: true,
+      publishedAt: true,
     },
-    // pagination: false reduces overhead if you don't need totalDocs
-    pagination: false,
     ...(query
       ? {
           where: {
@@ -60,19 +62,19 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   })
 
   return (
-    <div className="pt-8 pb-16">
+    <div className="pb-16 pt-8">
       <PageClient />
       <div className="container mb-8">
-        <h1 className="text-2xl font-bold text-foreground mb-6">Buscar</h1>
+        <h1 className="text-foreground mb-6 text-2xl font-bold">Buscar</h1>
         <div className="max-w-[40rem]">
           <Search />
         </div>
       </div>
 
       {posts.totalDocs > 0 ? (
-        <CollectionArchive posts={posts.docs as CardPostData[]} />
+        <CollectionArchive posts={posts.docs as any[]} />
       ) : (
-        <div className="container text-muted-foreground text-sm">Nenhum resultado encontrado.</div>
+        <div className="text-muted-foreground container text-sm">Nenhum resultado encontrado.</div>
       )}
     </div>
   )
