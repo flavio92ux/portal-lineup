@@ -63,7 +63,7 @@ export default async function ColunasPage() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Colunas - DIAL RADIO',
-    description: 'As colunas e artigos de opinião do portal DIAL RADIO.',
+    title: 'Colunas - PORTAL LINEUP',
+    description: 'As colunas e artigos de opinião do portal PORTAL LINEUP.',
   }
 }

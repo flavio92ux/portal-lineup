@@ -63,7 +63,7 @@ export default async function HomePage() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'DIAL RADIO - Portal de Noticias',
-    description: 'DIAL RADIO - As principais noticias sobre radio e TV do Brasil.',
+    title: 'Portal Lineup - Portal de Noticias',
+    description: 'Portal Lineup - As principais noticias sobre radio e TV do Brasil.',
   }
 }

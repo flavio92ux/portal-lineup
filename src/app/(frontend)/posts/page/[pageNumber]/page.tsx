@@ -45,9 +45,9 @@ export default async function Page({ params: paramsPromise }: Args) {
   })
 
   return (
-    <div className="pt-8 pb-16">
+    <div className="pb-16 pt-8">
       <div className="container mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Publicacoes</h1>
+        <h1 className="text-foreground text-2xl font-bold">Publicacoes</h1>
       </div>
 
       <div className="container mb-4">
@@ -79,7 +79,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise
   return {
-    title: `Publicacoes - Pagina ${pageNumber || ''} | DIAL RADIO`,
+    title: `Publicacoes - Pagina ${pageNumber || ''} | PORTAL LINEUP`,
   }
 }
 

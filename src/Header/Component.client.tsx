@@ -45,8 +45,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       <div className="container flex h-14 items-center justify-between">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-1.5">
-            <span className="text-xl font-extrabold tracking-tight">DIAL</span>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.25em]">RADIO</span>
+            <span className="text-xl font-extrabold tracking-tight">PortalL</span>
+            <span className="text-[10px] font-semibold uppercase tracking-[0.25em]">Lineup</span>
           </Link>
           <HeaderNav data={data} />
         </div>
