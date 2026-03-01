@@ -27,6 +27,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: '*.r2.dev',
       },
+      {
+        protocol: 'https',
+        hostname: '*.portal-lineup.site',
+      },
     ],
   },
   webpack: (webpackConfig) => {
