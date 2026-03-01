@@ -9,7 +9,10 @@ import type { Post } from '@/payload-types'
 import { Media } from '@/components/Media'
 import { getPostUrl } from '@/utilities/getPostUrl'
 
-export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title' | 'type'>
+export type CardPostData = Pick<
+  Post,
+  'slug' | 'categories' | 'meta' | 'title' | 'type' | 'heroImage'
+>
 
 export const Card: React.FC<{
   alignItems?: 'center'
@@ -21,8 +24,9 @@ export const Card: React.FC<{
   const { card, link } = useClickableCard({})
   const { className, doc, showCategories, title: titleFromProps } = props
 
-  const { slug, categories, meta, title, type } = doc || {}
-  const { description, image: metaImage } = meta || {}
+  const { slug, categories, meta, title, type, heroImage } = doc || {}
+  const { description } = meta || {}
+  const metaImage = heroImage
 
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
   const titleToUse = titleFromProps || title
