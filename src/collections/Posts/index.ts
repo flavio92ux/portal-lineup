@@ -84,18 +84,18 @@ export const Posts: CollectionConfig<'posts'> = {
       },
     },
     {
+      name: 'headline',
+      type: 'text',
+      label: 'Versal',
+      admin: {
+        description: 'Texto curto de destaque para chamar atenção do leitor',
+      },
+    },
+    {
       name: 'title',
       type: 'text',
       label: 'Título',
       required: true,
-    },
-    {
-      name: 'headline',
-      type: 'text',
-      label: 'Chamada',
-      admin: {
-        description: 'Texto curto de destaque para chamar atenção do leitor',
-      },
     },
     {
       name: 'subtitle',

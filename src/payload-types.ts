@@ -158,7 +158,15 @@ export interface Post {
    * Tipo de publicacao: noticia ou coluna de autor
    */
   type: 'news' | 'column';
+  /**
+   * Texto curto de destaque para chamar atenção do leitor
+   */
+  headline?: string | null;
   title: string;
+  /**
+   * Texto complementar ao título principal
+   */
+  subtitle?: string | null;
   heroImage?: (number | null) | Media;
   content: {
     root: {
@@ -196,6 +204,7 @@ export interface Post {
       }[]
     | null;
   slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -327,6 +336,7 @@ export interface Category {
   id: number;
   title: string;
   slug?: string | null;
+  slugLock?: boolean | null;
   parent?: (number | null) | Category;
   breadcrumbs?:
     | {
@@ -347,6 +357,7 @@ export interface User {
   id: number;
   name: string;
   slug?: string | null;
+  slugLock?: boolean | null;
   /**
    * Foto de perfil do redator
    */
@@ -456,6 +467,7 @@ export interface Page {
   };
   publishedAt?: string | null;
   slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1075,7 +1087,9 @@ export interface PayloadMigration {
  */
 export interface PostsSelect<T extends boolean = true> {
   type?: T;
+  headline?: T;
   title?: T;
+  subtitle?: T;
   heroImage?: T;
   content?: T;
   relatedPosts?: T;
@@ -1098,6 +1112,7 @@ export interface PostsSelect<T extends boolean = true> {
         avatar?: T;
       };
   slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1148,6 +1163,7 @@ export interface PagesSelect<T extends boolean = true> {
       };
   publishedAt?: T;
   slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1337,6 +1353,7 @@ export interface MediaSelect<T extends boolean = true> {
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  slugLock?: T;
   parent?: T;
   breadcrumbs?:
     | T
@@ -1356,6 +1373,7 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  slugLock?: T;
   avatar?: T;
   bio?: T;
   socials?:
