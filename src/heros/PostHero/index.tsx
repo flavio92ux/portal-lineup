@@ -9,36 +9,33 @@ import { formatAuthors } from '@/utilities/formatAuthors'
 export const PostHero: React.FC<{
   post: Post
 }> = ({ post }) => {
-  const { categories, heroImage, populatedAuthors, publishedAt, title } = post
+  const { headline, heroImage, populatedAuthors, publishedAt, subtitle, title } = post
 
   const hasAuthors =
     populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
 
   return (
     <div className="container max-w-[48rem] mx-auto">
-      {/* Category Tags */}
-      {categories && categories.length > 0 && (
-        <div className="flex gap-2 mb-4">
-          {categories.map((category, index) => {
-            if (typeof category === 'object' && category !== null) {
-              return (
-                <span
-                  key={index}
-                  className="text-xs font-bold uppercase tracking-wider text-primary"
-                >
-                  {category.title}
-                </span>
-              )
-            }
-            return null
-          })}
+      {/* Versal (Headline) */}
+      {headline && (
+        <div className="mb-4">
+          <span className="text-xs font-bold uppercase tracking-wider text-primary">
+            {headline}
+          </span>
         </div>
       )}
 
       {/* Title */}
-      <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-foreground mb-3 text-balance">
+      <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-foreground mb-2 text-balance">
         {title}
       </h1>
+
+      {/* Subtitle */}
+      {subtitle && (
+        <p className="text-base md:text-lg text-muted-foreground mb-4 text-pretty">
+          {subtitle}
+        </p>
+      )}
 
       {/* Date */}
       {publishedAt && (
