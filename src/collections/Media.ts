@@ -40,7 +40,7 @@ export const Media: CollectionConfig = {
     formatOptions: {
       format: 'webp', // Força a conversão de todos os uploads para WebP
       options: {
-        quality: 80,
+        quality: 100,
       },
     },
     imageSizes: [
