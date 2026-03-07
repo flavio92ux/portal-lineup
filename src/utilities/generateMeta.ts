@@ -23,10 +23,10 @@ const getImageData = (image?: Media | Config['db']['defaultIDType'] | null): Ima
 
   if (image && typeof image === 'object' && 'url' in image) {
     const ogSize = image.sizes?.og
-    
+
     if (ogSize?.url) {
       return {
-        url: serverUrl + ogSize.url,
+        url: ogSize.url,
         width: ogSize.width || 1200,
         height: ogSize.height || 630,
         alt: image.alt || undefined,
@@ -34,7 +34,7 @@ const getImageData = (image?: Media | Config['db']['defaultIDType'] | null): Ima
     }
 
     return {
-      url: serverUrl + image.url,
+      url: image.url || defaultImage.url,
       width: image.width || 1200,
       height: image.height || 630,
       alt: image.alt || undefined,
@@ -68,7 +68,7 @@ export const generateMeta = async (args: {
   const imageData = getImageData(doc?.heroImage)
   const title = doc?.meta?.title ? doc?.meta?.title + ' | Lineup Brasil' : 'Lineup Brasil'
   const description = doc?.meta?.description || ''
-  
+
   // Build the canonical URL based on post type
   let canonicalUrl = serverUrl
   if (doc?.slug) {
@@ -83,9 +83,10 @@ export const generateMeta = async (args: {
   }
 
   // Get author names for article metadata
-  const authors = (doc as Partial<Post>)?.populatedAuthors
-    ?.filter((author) => author?.name)
-    .map((author) => author.name as string) || []
+  const authors =
+    (doc as Partial<Post>)?.populatedAuthors
+      ?.filter((author) => author?.name)
+      .map((author) => author.name as string) || []
 
   return {
     title,

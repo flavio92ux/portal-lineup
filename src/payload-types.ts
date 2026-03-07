@@ -186,6 +186,9 @@ export interface Post {
     title?: string | null;
     description?: string | null;
   };
+  /**
+   * Data de publicação. Se não informada, será preenchida automaticamente ao publicar.
+   */
   publishedAt?: string | null;
   authors?: (number | User)[] | null;
   populatedAuthors?:

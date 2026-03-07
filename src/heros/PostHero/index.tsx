@@ -11,7 +11,8 @@ import { getServerSideURL } from '@/utilities/getURL'
 export const PostHero: React.FC<{
   post: Post
 }> = ({ post }) => {
-  const { headline, heroImage, populatedAuthors, publishedAt, subtitle, title, slug, type, meta } = post
+  const { headline, heroImage, populatedAuthors, publishedAt, subtitle, title, slug, type, meta } =
+    post
 
   // Build the post URL based on type
   const baseUrl = getServerSideURL()
@@ -61,7 +62,7 @@ export const PostHero: React.FC<{
       <div className="border-border mb-6 flex flex-col gap-4 border-b py-4 sm:flex-row sm:items-center sm:justify-between">
         {/* Author */}
         {hasAuthors && (
-          <p className="text-primary text-sm font-semibold">
+          <p className="text- text-sm font-semibold">
             {'De Portal Lineup: '}
             {validAuthors.map((author, index) => {
               const isLast = index === validAuthors.length - 1
@@ -74,7 +75,7 @@ export const PostHero: React.FC<{
                 <span key={author.id || index}>
                   {hasSlug ? (
                     <Link href={`/autor/${author.slug}`} className="hover:underline">
-                      {author.name}
+                      <span className="text-blue-500 underline">{author.name}</span>
                     </Link>
                   ) : (
                     <span>{author.name}</span>
@@ -87,11 +88,7 @@ export const PostHero: React.FC<{
         )}
 
         {/* Share Bar */}
-        <ShareBar
-          url={fullUrl}
-          title={title}
-          description={meta?.description || subtitle || ''}
-        />
+        <ShareBar url={fullUrl} title={title} description={meta?.description || subtitle || ''} />
       </div>
     </div>
   )
