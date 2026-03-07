@@ -5,11 +5,18 @@ import Link from 'next/link'
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import { ShareBar } from '@/components/ShareBar'
+import { getServerSideURL } from '@/utilities/getURL'
 
 export const PostHero: React.FC<{
   post: Post
 }> = ({ post }) => {
-  const { headline, heroImage, populatedAuthors, publishedAt, subtitle, title } = post
+  const { headline, heroImage, populatedAuthors, publishedAt, subtitle, title, slug, type, meta } = post
+
+  // Build the post URL based on type
+  const baseUrl = getServerSideURL()
+  const postPath = type === 'column' ? `/colunas/${slug}` : `/noticias/${slug}`
+  const fullUrl = `${baseUrl}${postPath}`
 
   const validAuthors = populatedAuthors?.filter((author) => author.name) || []
   const hasAuthors = validAuthors.length > 0
@@ -50,9 +57,10 @@ export const PostHero: React.FC<{
         </div>
       )}
 
-      {/* Author */}
-      {hasAuthors && (
-        <div className="border-border mb-6 border-b py-4">
+      {/* Author and Share Bar */}
+      <div className="border-border mb-6 flex flex-col gap-4 border-b py-4 sm:flex-row sm:items-center sm:justify-between">
+        {/* Author */}
+        {hasAuthors && (
           <p className="text-primary text-sm font-semibold">
             {'De Portal Lineup: '}
             {validAuthors.map((author, index) => {
@@ -76,8 +84,15 @@ export const PostHero: React.FC<{
               )
             })}
           </p>
-        </div>
-      )}
+        )}
+
+        {/* Share Bar */}
+        <ShareBar
+          url={fullUrl}
+          title={title}
+          description={meta?.description || subtitle || ''}
+        />
+      </div>
     </div>
   )
 }

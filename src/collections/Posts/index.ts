@@ -207,11 +207,17 @@ export const Posts: CollectionConfig<'posts'> = {
           pickerAppearance: 'dayAndTime',
         },
         position: 'sidebar',
+        description: 'Data de publicação. Se não informada, será preenchida automaticamente ao publicar.',
       },
       hooks: {
         beforeChange: [
-          ({ siblingData, value }) => {
+          ({ siblingData, value, operation }) => {
+            // Se está sendo publicado e não tem data, define a data atual
             if (siblingData._status === 'published' && !value) {
+              return new Date()
+            }
+            // Se é uma criação sem data, também define a data atual
+            if (operation === 'create' && !value) {
               return new Date()
             }
             return value
