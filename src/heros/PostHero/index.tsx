@@ -1,21 +1,21 @@
 import { formatDateTime } from 'src/utilities/formatDateTime'
 import React from 'react'
+import Link from 'next/link'
 
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
-import { formatAuthors } from '@/utilities/formatAuthors'
 
 export const PostHero: React.FC<{
   post: Post
 }> = ({ post }) => {
   const { headline, heroImage, populatedAuthors, publishedAt, subtitle, title } = post
 
-  const hasAuthors =
-    populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
+  const validAuthors = populatedAuthors?.filter((author) => author.name) || []
+  const hasAuthors = validAuthors.length > 0
 
   return (
-    <div className="container mx-auto max-w-[48rem]">
+    <div className="container mx-auto max-w-3xl">
       {/* Versal (Headline) */}
       {headline && (
         <div className="mb-4">
@@ -55,7 +55,26 @@ export const PostHero: React.FC<{
         <div className="border-border mb-6 border-b py-4">
           <p className="text-primary text-sm font-semibold">
             {'De Portal Lineup: '}
-            {formatAuthors(populatedAuthors)}
+            {validAuthors.map((author, index) => {
+              const isLast = index === validAuthors.length - 1
+              const isPenultimate = index === validAuthors.length - 2
+              const hasSlug = Boolean(author.slug)
+
+              const separator = isLast ? '' : isPenultimate ? ' e ' : ', '
+
+              return (
+                <span key={author.id || index}>
+                  {hasSlug ? (
+                    <Link href={`/autor/${author.slug}`} className="hover:underline">
+                      {author.name}
+                    </Link>
+                  ) : (
+                    <span>{author.name}</span>
+                  )}
+                  {separator}
+                </span>
+              )
+            })}
           </p>
         </div>
       )}

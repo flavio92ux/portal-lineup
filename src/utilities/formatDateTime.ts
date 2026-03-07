@@ -3,11 +3,23 @@ export const formatDateTime = (timestamp: string): string => {
   let date = now
   if (timestamp) date = new Date(timestamp)
 
-  const DD = date.getDate().toString().padStart(2, '0')
-  const MM = (date.getMonth() + 1).toString().padStart(2, '0')
-  const YYYY = date.getFullYear()
-  const HH = date.getHours().toString().padStart(2, '0')
-  const MinMin = date.getMinutes().toString().padStart(2, '0')
+  const formatter = new Intl.DateTimeFormat('pt-BR', {
+    timeZone: 'America/Sao_Paulo',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+
+  const parts = formatter.formatToParts(date)
+  const getPart = (type: string) => parts.find((part) => part.type === type)?.value || '00'
+
+  const DD = getPart('day')
+  const MM = getPart('month')
+  const YYYY = getPart('year')
+  const HH = getPart('hour')
+  const MinMin = getPart('minute')
 
   return `${DD}/${MM}/${YYYY} - ${HH}:${MinMin}`
 }
