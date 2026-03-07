@@ -5,18 +5,43 @@ import type { Media, Post, Config } from '../payload-types'
 import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
 
-const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
+interface ImageData {
+  url: string
+  width?: number
+  height?: number
+  alt?: string
+}
+
+const getImageData = (image?: Media | Config['db']['defaultIDType'] | null): ImageData => {
   const serverUrl = getServerSideURL()
 
-  let url = serverUrl + '/website-template-OG.webp'
-
-  if (image && typeof image === 'object' && 'url' in image) {
-    const ogUrl = image.sizes?.og?.url
-
-    url = ogUrl ? serverUrl + ogUrl : serverUrl + image.url
+  const defaultImage: ImageData = {
+    url: serverUrl + '/website-template-OG.webp',
+    width: 1200,
+    height: 630,
   }
 
-  return url
+  if (image && typeof image === 'object' && 'url' in image) {
+    const ogSize = image.sizes?.og
+    
+    if (ogSize?.url) {
+      return {
+        url: serverUrl + ogSize.url,
+        width: ogSize.width || 1200,
+        height: ogSize.height || 630,
+        alt: image.alt || undefined,
+      }
+    }
+
+    return {
+      url: serverUrl + image.url,
+      width: image.width || 1200,
+      height: image.height || 630,
+      alt: image.alt || undefined,
+    }
+  }
+
+  return defaultImage
 }
 
 export const generateMeta = async (args: {
@@ -24,7 +49,11 @@ export const generateMeta = async (args: {
     | Partial<Post>
     | {
         slug?: string | null
+        type?: 'news' | 'column' | null
+        title?: string | null
         heroImage?: (number | null) | Media
+        publishedAt?: string | null
+        populatedAuthors?: Array<{ name?: string | null }> | null
         meta?: {
           title?: string | null
           description?: string | null
@@ -34,25 +63,57 @@ export const generateMeta = async (args: {
     | null
 }): Promise<Metadata> => {
   const { doc } = args
+  const serverUrl = getServerSideURL()
 
-  const ogImage = getImageURL(doc?.heroImage)
-
+  const imageData = getImageData(doc?.heroImage)
   const title = doc?.meta?.title ? doc?.meta?.title + ' | Lineup Brasil' : 'Lineup Brasil'
+  const description = doc?.meta?.description || ''
+  
+  // Build the canonical URL based on post type
+  let canonicalUrl = serverUrl
+  if (doc?.slug) {
+    const slug = Array.isArray(doc.slug) ? doc.slug.join('/') : doc.slug
+    if (doc?.type === 'column') {
+      canonicalUrl = `${serverUrl}/colunas/${slug}`
+    } else if (doc?.type === 'news') {
+      canonicalUrl = `${serverUrl}/noticias/${slug}`
+    } else {
+      canonicalUrl = `${serverUrl}/${slug}`
+    }
+  }
+
+  // Get author names for article metadata
+  const authors = (doc as Partial<Post>)?.populatedAuthors
+    ?.filter((author) => author?.name)
+    .map((author) => author.name as string) || []
 
   return {
-    description: doc?.meta?.description,
-    openGraph: mergeOpenGraph({
-      description: doc?.meta?.description || '',
-      images: ogImage
-        ? [
-            {
-              url: ogImage,
-            },
-          ]
-        : undefined,
-      title,
-      url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
-    }),
     title,
+    description,
+    openGraph: mergeOpenGraph({
+      type: 'article',
+      description,
+      images: [
+        {
+          url: imageData.url,
+          width: imageData.width,
+          height: imageData.height,
+          alt: imageData.alt || title,
+        },
+      ],
+      title,
+      url: canonicalUrl,
+      ...(doc?.publishedAt && { publishedTime: doc.publishedAt }),
+      ...(authors.length > 0 && { authors }),
+    }),
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [imageData.url],
+    },
+    alternates: {
+      canonical: canonicalUrl,
+    },
   }
 }
