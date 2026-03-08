@@ -16,7 +16,7 @@ const getImageData = (image?: Media | Config['db']['defaultIDType'] | null): Ima
   const serverUrl = getServerSideURL()
 
   const defaultImage: ImageData = {
-    url: serverUrl + '/website-template-OG.webp',
+    url: serverUrl + '/web-app-manifest-512x512.png',
     width: 1200,
     height: 630,
   }

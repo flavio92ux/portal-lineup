@@ -7,7 +7,7 @@ const defaultOpenGraph: Metadata['openGraph'] = {
     'Lineup Brasil - As principais noticias, colunas e analises dos melhores redatores do Brasil.',
   images: [
     {
-      url: `${getServerSideURL()}/website-template-OG.webp`,
+      url: `${getServerSideURL()}/web-app-manifest-512x512.png`,
     },
   ],
   siteName: 'Lineup Brasil',
