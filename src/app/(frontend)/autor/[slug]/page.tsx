@@ -180,14 +180,14 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     openGraph: {
       title: `${author.name} | Lineup Brasil`,
       description: `Perfil e publicações de ${author.name} no Lineup Brasil.`,
-      url: (author as any).avatar.url,
+      url: `${serverURL}/autor/${slug}`,
       siteName: 'Lineup Brasil',
       ...((author as any).avatar && typeof (author as any).avatar === 'object'
         ? {
             images: [
               {
                 url: (author as any).avatar.url
-                  ? `${serverURL}${(author as any).avatar.url}`
+                  ? `${(author as any).avatar.url}`
                   : `${serverURL}/og-image.png`,
               },
             ],
