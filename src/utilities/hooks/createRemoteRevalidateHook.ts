@@ -8,10 +8,11 @@ export const createRemoteRevalidateHook =
   (pathsOrPathGetter: string[] | ((doc: any) => string[])): CollectionAfterChangeHook =>
   async ({ doc, previousDoc, req: { payload } }) => {
     try {
-      const paths = typeof pathsOrPathGetter === 'function' ? pathsOrPathGetter(doc) : pathsOrPathGetter
+      const paths =
+        typeof pathsOrPathGetter === 'function' ? pathsOrPathGetter(doc) : pathsOrPathGetter
 
-      // Não revalida se o documento não está publicado
-      if (doc._status !== 'published') {
+      // Não revalida se o documento tem controle de estado e não está publicado
+      if (doc._status && doc._status !== 'published') {
         return doc
       }
 
@@ -52,7 +53,8 @@ export const createRemoteRevalidateDeleteHook =
   (pathsOrPathGetter: string[] | ((doc: any) => string[])): CollectionAfterDeleteHook =>
   async ({ doc, req: { payload } }) => {
     try {
-      const paths = typeof pathsOrPathGetter === 'function' ? pathsOrPathGetter(doc) : pathsOrPathGetter
+      const paths =
+        typeof pathsOrPathGetter === 'function' ? pathsOrPathGetter(doc) : pathsOrPathGetter
 
       const secret = process.env.REVALIDATE_SECRET
       if (!secret) {

@@ -3,6 +3,12 @@ import type { CollectionConfig } from 'payload'
 import { anyone } from '../../access/anyone'
 import { authenticated } from '../../access/authenticated'
 import { slugField } from '@/fields/slug'
+import {
+  revalidateUser,
+  revalidateDelete,
+  revalidateUserRemote,
+  revalidateUserDeleteRemote,
+} from './hooks/revalidateUser'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -12,6 +18,10 @@ export const Users: CollectionConfig = {
     delete: authenticated,
     read: anyone,
     update: authenticated,
+  },
+  hooks: {
+    afterChange: [revalidateUser, revalidateUserRemote],
+    afterDelete: [revalidateDelete, revalidateUserDeleteRemote],
   },
   defaultPopulate: {
     name: true,
