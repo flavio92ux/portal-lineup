@@ -5,6 +5,7 @@ import { getPayload } from 'payload'
 import React, { cache } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { Mail, Instagram, Linkedin, Twitter, Youtube, Link2, Facebook } from 'lucide-react'
 
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
@@ -32,13 +33,15 @@ type Args = {
   }>
 }
 
-const socialIcons: Record<string, string> = {
-  twitter: 'X',
-  instagram: 'Instagram',
-  linkedin: 'LinkedIn',
-  youtube: 'YouTube',
-  tiktok: 'TikTok',
-  website: 'Site',
+const getSocialIcon = (platform: string) => {
+  const p = platform.toLowerCase()
+  if (p === 'twitter' || p === 'x') return <Twitter className="h-8 w-8" />
+  if (p === 'instagram') return <Instagram className="h-8 w-8" />
+  if (p === 'linkedin') return <Linkedin className="h-8 w-8" />
+  if (p === 'youtube') return <Youtube className="h-8 w-8" />
+  if (p === 'facebook') return <Facebook className="h-8 w-8" />
+  if (p === 'website' || p === 'site') return <Link2 className="h-8 w-8" />
+  return <Mail className="h-8 w-8" />
 }
 
 export default async function AutorPage({ params: paramsPromise }: Args) {
@@ -75,61 +78,69 @@ export default async function AutorPage({ params: paramsPromise }: Args) {
   const socials = (author as any).socials as Array<{ platform: string; url: string }> | undefined
 
   return (
-    <div className="pb-24 pt-24">
+    <div className="pb-24">
       <PageClient />
 
       {/* Author Profile Header */}
-      <section className="container mb-16">
-        <div className="mx-auto flex max-w-4xl flex-col items-start gap-8 md:flex-row">
-          {/* Avatar */}
-          <div className="shrink-0">
-            {(author as any).avatar && typeof (author as any).avatar !== 'string' ? (
-              <div className="border-primary/20 h-32 w-32 overflow-hidden rounded-full border-4">
-                <Media
-                  resource={(author as any).avatar}
-                  imgClassName="w-full h-full object-cover"
+      <section className="container mb-16 flex justify-center lg:block">
+        <div className="max-w-4xl">
+          <div className="grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-4 md:items-start md:gap-x-8 md:gap-y-2">
+            {/* Avatar */}
+            <div className="col-start-1 col-end-2 row-start-1 row-end-2 self-center md:row-span-2 md:self-start">
+              {(author as any).avatar && typeof (author as any).avatar !== 'string' ? (
+                <div className="h-24 w-24 overflow-hidden rounded-full md:h-40 md:w-40">
+                  <Media
+                    resource={(author as any).avatar}
+                    imgClassName="h-full w-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="bg-muted flex h-24 w-24 items-center justify-center rounded-full md:h-40 md:w-40">
+                  <span className="text-muted-foreground text-3xl font-bold md:text-5xl">
+                    {author.name?.charAt(0)?.toUpperCase() || '?'}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Name */}
+            <div className="col-start-2 col-end-3 row-start-1 row-end-2 self-center md:mt-4 md:self-end">
+              <h1 className="text-primary text-2xl font-bold md:text-4xl lg:text-5xl">
+                {author.name}
+              </h1>
+            </div>
+
+            {/* Bio */}
+            {(author as any).bio && (
+              <div className="col-span-2 mt-2 md:col-start-2 md:col-end-3 md:row-start-2 md:row-end-3 md:mt-0">
+                <RichText
+                  data={(author as any).bio}
+                  enableGutter={false}
+                  className="text-muted-foreground prose-sm md:prose-base max-w-none"
                 />
-              </div>
-            ) : (
-              <div className="bg-muted border-primary/20 flex h-32 w-32 items-center justify-center rounded-full border-4">
-                <span className="text-muted-foreground text-4xl font-bold">
-                  {author.name?.charAt(0)?.toUpperCase() || '?'}
-                </span>
               </div>
             )}
           </div>
 
-          {/* Info */}
-          <div className="flex-1">
-            <h1 className="mb-4 text-3xl font-bold md:text-4xl">{author.name}</h1>
-
-            {(author as any).bio && (
-              <div className="mb-6">
-                <RichText
-                  data={(author as any).bio}
-                  enableGutter={false}
-                  className="prose-sm max-w-none"
-                />
-              </div>
-            )}
-
-            {/* Social Links */}
-            {socials && socials.length > 0 && (
-              <div className="flex flex-wrap gap-3">
+          {/* Social Links */}
+          {socials && socials.length > 0 && (
+            <div className="border-border mt-8 border-t pt-8">
+              <div className="flex flex-wrap justify-center gap-4 md:justify-start">
                 {socials.map((social, index) => (
                   <a
                     key={index}
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-muted hover:bg-primary hover:text-primary-foreground inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-colors"
+                    className="text-primary hover:text-primary/80 transition-colors"
+                    title={social.platform}
                   >
-                    {socialIcons[social.platform] || social.platform}
+                    {getSocialIcon(social.platform)}
                   </a>
                 ))}
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -169,7 +180,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     openGraph: {
       title: `${author.name} | Lineup Brasil`,
       description: `Perfil e publicações de ${author.name} no Lineup Brasil.`,
-      url: `${serverURL}/autor/${slug}`,
+      url: (author as any).avatar.url,
       siteName: 'Lineup Brasil',
       ...((author as any).avatar && typeof (author as any).avatar === 'object'
         ? {
