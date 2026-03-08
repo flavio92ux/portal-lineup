@@ -3,10 +3,15 @@ import { unstable_cache } from 'next/cache'
 
 const getGeneralSitemap = unstable_cache(
   async () => {
-    const SITE_URL =
+    let SITE_URL =
       process.env.NEXT_PUBLIC_SERVER_URL ||
       process.env.VERCEL_PROJECT_PRODUCTION_URL ||
       'https://example.com'
+    
+    // Ensure SITE_URL has https:// protocol
+    if (!SITE_URL.startsWith('http://') && !SITE_URL.startsWith('https://')) {
+      SITE_URL = `https://${SITE_URL}`
+    }
 
     const dateFallback = new Date().toISOString()
 
