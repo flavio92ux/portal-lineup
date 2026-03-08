@@ -14,6 +14,7 @@ import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { NewsArticleJsonLd } from '@/components/JsonLd'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -51,6 +52,7 @@ export default async function NoticiaPage({ params: paramsPromise }: Args) {
 
   return (
     <article className="pt-8 pb-16">
+      <NewsArticleJsonLd post={post} postType="news" />
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
