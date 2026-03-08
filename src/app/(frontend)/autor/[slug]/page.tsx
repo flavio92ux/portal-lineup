@@ -65,6 +65,10 @@ export default async function AutorPage({ params: paramsPromise }: Args) {
       type: true,
       categories: true,
       meta: true,
+      heroImage: true,
+      publishedAt: true,
+      authors: true,
+      populatedAuthors: true,
     },
   })
 
@@ -130,7 +134,7 @@ export default async function AutorPage({ params: paramsPromise }: Args) {
       </section>
 
       {/* Author's Posts */}
-      <section>
+      <section className="container">
         <div className="container mb-8">
           <h2 className="text-2xl font-bold">{'Publicações de ' + (author.name || 'Autor')}</h2>
         </div>
@@ -138,7 +142,7 @@ export default async function AutorPage({ params: paramsPromise }: Args) {
           <CollectionArchive posts={authorPosts.docs} />
         ) : (
           <div className="container">
-            <p className="text-muted-foreground">Nenhuma publicacao encontrada.</p>
+            <p className="text-muted-foreground">Nenhuma publicação encontrada.</p>
           </div>
         )}
       </section>
@@ -161,10 +165,10 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 
   return {
     title: `${author.name} | Lineup Brasil`,
-    description: `Perfil e publicacoes de ${author.name} no Lineup Brasil.`,
+    description: `Perfil e publicações de ${author.name} no Lineup Brasil.`,
     openGraph: {
       title: `${author.name} | Lineup Brasil`,
-      description: `Perfil e publicacoes de ${author.name} no Lineup Brasil.`,
+      description: `Perfil e publicações de ${author.name} no Lineup Brasil.`,
       url: `${serverURL}/autor/${slug}`,
       siteName: 'Lineup Brasil',
       ...((author as any).avatar && typeof (author as any).avatar === 'object'
