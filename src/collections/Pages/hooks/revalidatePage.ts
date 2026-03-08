@@ -3,6 +3,10 @@ import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'paylo
 import { revalidatePath, revalidateTag } from 'next/cache'
 
 import type { Page } from '../../../payload-types'
+import {
+  createRemoteRevalidateHook,
+  createRemoteRevalidateDeleteHook,
+} from '../../../utilities/hooks/createRemoteRevalidateHook'
 
 export const revalidatePage: CollectionAfterChangeHook<Page> = ({
   doc,
@@ -41,3 +45,12 @@ export const revalidateDelete: CollectionAfterDeleteHook<Page> = ({ doc, req: { 
 
   return doc
 }
+
+// Hooks remotos para revalidação em produção
+const getPagePaths = (doc: Page): string[] => {
+  const path = doc.slug === 'home' ? '/' : `/${doc.slug}`
+  return [path, '/pages-sitemap']
+}
+
+export const revalidatePageRemote = createRemoteRevalidateHook(getPagePaths)
+export const revalidatePageDeleteRemote = createRemoteRevalidateDeleteHook(getPagePaths)
