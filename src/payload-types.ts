@@ -568,17 +568,6 @@ export interface MediaBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "YouTubeEmbedBlock".
- */
-export interface YouTubeEmbedBlock {
-  url: string;
-  caption?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'youtubeEmbed';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ArchiveBlock".
  */
 export interface ArchiveBlock {
@@ -1836,6 +1825,23 @@ export interface CodeBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'code';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "YouTubeEmbedBlock".
+ */
+export interface YouTubeEmbedBlock {
+  /**
+   * Cole a URL do vídeo do YouTube. Formatos aceitos: youtube.com/watch?v=ID, youtu.be/ID, youtube.com/embed/ID
+   */
+  url: string;
+  /**
+   * Legenda opcional para o vídeo
+   */
+  caption?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'youtubeEmbed';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
