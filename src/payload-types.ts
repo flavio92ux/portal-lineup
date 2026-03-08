@@ -368,7 +368,7 @@ export interface User {
   } | null;
   socials?:
     | {
-        platform: 'twitter' | 'instagram' | 'linkedin' | 'youtube' | 'tiktok' | 'website';
+        platform: 'facebook' | 'twitter' | 'instagram' | 'youtube' | 'tiktok' | 'website' | 'linkedin';
         url: string;
         id?: string | null;
       }[]

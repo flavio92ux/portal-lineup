@@ -73,12 +73,13 @@ export const Users: CollectionConfig = {
           type: 'select',
           required: true,
           options: [
+            { label: 'Facebook', value: 'facebook' },
             { label: 'Twitter / X', value: 'twitter' },
             { label: 'Instagram', value: 'instagram' },
-            { label: 'LinkedIn', value: 'linkedin' },
             { label: 'YouTube', value: 'youtube' },
             { label: 'TikTok', value: 'tiktok' },
             { label: 'Website', value: 'website' },
+            { label: 'LinkedIn', value: 'linkedin' },
           ],
         },
         {
