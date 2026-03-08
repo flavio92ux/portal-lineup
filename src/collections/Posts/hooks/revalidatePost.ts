@@ -4,6 +4,10 @@ import { revalidatePath, revalidateTag } from 'next/cache'
 
 import type { Post } from '../../../payload-types'
 import { getPostUrl } from '@/utilities/getPostUrl'
+import {
+  createRemoteRevalidateHook,
+  createRemoteRevalidateDeleteHook,
+} from '../../../utilities/hooks/createRemoteRevalidateHook'
 
 export const revalidatePost: CollectionAfterChangeHook<Post> = ({
   doc,
@@ -58,3 +62,12 @@ export const revalidateDelete: CollectionAfterDeleteHook<Post> = ({ doc, req: { 
 
   return doc
 }
+
+// Hooks remotos para revalidação em produção
+const getPostPaths = (doc: Post): string[] => {
+  const path = getPostUrl(doc)
+  return [path, '/posts-sitemap', '/', '/noticias', '/colunas']
+}
+
+export const revalidatePostRemote = createRemoteRevalidateHook(getPostPaths)
+export const revalidatePostDeleteRemote = createRemoteRevalidateDeleteHook(getPostPaths)
