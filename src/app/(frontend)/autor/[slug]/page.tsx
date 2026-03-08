@@ -4,7 +4,6 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React, { cache } from 'react'
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
 import { Mail, Instagram, Linkedin, Twitter, Youtube, Link2, Facebook } from 'lucide-react'
 
 import { Media } from '@/components/Media'

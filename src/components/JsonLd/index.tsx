@@ -6,6 +6,17 @@ type NewsArticleJsonLdProps = {
   postType: 'news' | 'column' | 'post'
 }
 
+function extractTextFromNode(node: any): string {
+  if (!node) return ''
+  if (node.type === 'text') {
+    return node.text || ''
+  }
+  if (Array.isArray(node.children)) {
+    return node.children.map((child: any) => extractTextFromNode(child)).join(' ')
+  }
+  return ''
+}
+
 export function NewsArticleJsonLd({ post, postType }: NewsArticleJsonLdProps) {
   const serverUrl = getServerSideURL()
 
@@ -23,7 +34,8 @@ export function NewsArticleJsonLd({ post, postType }: NewsArticleJsonLdProps) {
       ? post.heroImage
       : null
 
-  const imageUrl = heroImage?.sizes?.og?.url || heroImage?.url || `${serverUrl}/web-app-manifest-512x512.png`
+  const imageUrl =
+    heroImage?.sizes?.og?.url || heroImage?.url || `${serverUrl}/web-app-manifest-512x512.png`
 
   const authors =
     post.populatedAuthors
@@ -33,6 +45,22 @@ export function NewsArticleJsonLd({ post, postType }: NewsArticleJsonLdProps) {
         name: a.name,
         ...(a.slug ? { url: `${serverUrl}/autor/${a.slug}` } : {}),
       })) || []
+
+  // BreadcrumbList
+  const sectionLabel =
+    postType === 'column' ? 'Colunas' : postType === 'news' ? 'Notícias' : 'Posts'
+  const sectionPath =
+    postType === 'column' ? '/colunas' : postType === 'news' ? '/noticias' : '/posts'
+
+  const articleBody = post.content?.root
+    ? extractTextFromNode(post.content.root).replace(/\s+/g, ' ').trim()
+    : ''
+
+  const categories =
+    post.categories
+      ?.map((c) => (typeof c === 'object' && c !== null && 'title' in c ? c.title : null))
+      .filter(Boolean)
+      .join(', ') || sectionLabel
 
   const newsArticleSchema = {
     '@context': 'https://schema.org',
@@ -56,13 +84,9 @@ export function NewsArticleJsonLd({ post, postType }: NewsArticleJsonLdProps) {
       '@id': postUrl,
     },
     url: postUrl,
+    ...(categories ? { articleSection: categories } : {}),
+    ...(articleBody ? { articleBody } : {}),
   }
-
-  // BreadcrumbList
-  const sectionLabel =
-    postType === 'column' ? 'Colunas' : postType === 'news' ? 'Notícias' : 'Posts'
-  const sectionPath =
-    postType === 'column' ? '/colunas' : postType === 'news' ? '/noticias' : '/posts'
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',

@@ -7,12 +7,8 @@ import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
-
-import type { Post } from '@/payload-types'
-
 import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
-import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { NewsArticleJsonLd } from '@/components/JsonLd'
 
@@ -51,7 +47,7 @@ export default async function NoticiaPage({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   return (
-    <article className="pt-8 pb-16">
+    <article className="pb-16 pt-8">
       <NewsArticleJsonLd post={post} postType="news" />
       <PayloadRedirects disableNotFound url={url} />
 
@@ -59,11 +55,15 @@ export default async function NoticiaPage({ params: paramsPromise }: Args) {
 
       <PostHero post={post} />
 
-      <div className="container max-w-[48rem] mx-auto">
-        <RichText className="prose-sm md:prose dark:prose-invert max-w-none" data={post.content} enableGutter={false} />
+      <div className="container mx-auto max-w-3xl">
+        <RichText
+          className="prose-sm md:prose dark:prose-invert max-w-none"
+          data={post.content}
+          enableGutter={false}
+        />
         {post.relatedPosts && post.relatedPosts.length > 0 && (
-          <div className="mt-12 pt-8 border-t border-border">
-            <h3 className="text-base font-semibold text-foreground mb-6">Leia tambem</h3>
+          <div className="border-border mt-12 border-t pt-8">
+            <h3 className="text-foreground mb-6 text-base font-semibold">Leia tambem</h3>
             <RelatedPosts
               className="!p-0"
               docs={post.relatedPosts.filter((post) => typeof post === 'object')}
