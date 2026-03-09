@@ -66,7 +66,7 @@ export const generateMeta = async (args: {
   const serverUrl = getServerSideURL()
 
   const imageData = getImageData(doc?.heroImage)
-  const title = doc?.meta?.title ? doc?.meta?.title + ' | Lineup Brasil' : 'Lineup Brasil'
+  const title = doc?.meta?.title ? doc?.meta?.title : 'Lineup Brasil'
   const description = doc?.meta?.description || ''
 
   // Build the canonical URL based on post type
