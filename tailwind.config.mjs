@@ -8,6 +8,14 @@ const config = {
             {
               '--tw-prose-body': 'var(--text)',
               '--tw-prose-headings': 'var(--text)',
+              fontSize: '18px',
+              fontStyle: 'normal',
+              fontWeight: '400',
+              lineHeight: '27px',
+              p: {
+                fontSize: '18px',
+                lineHeight: '27px',
+              },
               h1: {
                 fontWeight: 'normal',
                 marginBottom: '0.25em',
@@ -31,6 +39,12 @@ const config = {
         md: {
           css: [
             {
+              fontSize: '18px',
+              lineHeight: '27px',
+              p: {
+                fontSize: '18px',
+                lineHeight: '27px',
+              },
               h1: {
                 fontSize: '3.5rem',
               },
