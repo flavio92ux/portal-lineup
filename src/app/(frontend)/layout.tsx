@@ -42,11 +42,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <Script
-          type="text/javascript"
-          id="mmvst_globe"
-          src="//mapmyvisitors.com/globe.js?d=RXIlyWDwGqOYT8MCCFtobXfF4_6rL40SyzIhGJDLa4k"
-        />
-        <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-VEDTNPFG1Y"
           strategy="afterInteractive"
         />
