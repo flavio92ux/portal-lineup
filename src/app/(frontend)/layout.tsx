@@ -40,12 +40,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
       </head>
-      <script
-        type="text/javascript"
-        id="mmvst_globe"
-        src="//mapmyvisitors.com/globe.js?d=RXIlyWDwGqOYT8MCCFtobXfF4_6rL40SyzIhGJDLa4k"
-      ></script>
       <body>
+        <Script
+          type="text/javascript"
+          id="mmvst_globe"
+          src="//mapmyvisitors.com/globe.js?d=RXIlyWDwGqOYT8MCCFtobXfF4_6rL40SyzIhGJDLa4k"
+        />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-VEDTNPFG1Y"
           strategy="afterInteractive"
