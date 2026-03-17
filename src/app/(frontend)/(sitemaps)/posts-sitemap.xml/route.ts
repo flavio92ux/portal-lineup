@@ -10,7 +10,7 @@ const getPostsSitemap = unstable_cache(
       process.env.NEXT_PUBLIC_SERVER_URL ||
       process.env.VERCEL_PROJECT_PRODUCTION_URL ||
       'https://example.com'
-    
+
     // Ensure SITE_URL has https:// protocol
     if (!SITE_URL.startsWith('http://') && !SITE_URL.startsWith('https://')) {
       SITE_URL = `https://${SITE_URL}`
@@ -48,12 +48,8 @@ const getPostsSitemap = unstable_cache(
               // For columns, build /autor/[author-slug]/[post-slug]
               const author = post.authors?.[0]
               const authorSlug =
-                typeof author === 'object' && author !== null
-                  ? (author as any).slug
-                  : null
-              loc = authorSlug
-                ? `${SITE_URL}/autor/${authorSlug}/${post.slug}`
-                : `${SITE_URL}/posts/${post.slug}`
+                typeof author === 'object' && author !== null ? (author as any).slug : null
+              loc = `${SITE_URL}/posts/${post.slug}`
             } else {
               loc = `${SITE_URL}/noticias/${post.slug}`
             }
