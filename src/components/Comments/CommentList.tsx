@@ -21,12 +21,12 @@ export function CommentList({ postId, postType }: CommentListProps) {
     return (
       <div className="flex flex-col gap-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="flex gap-3 animate-pulse">
-            <div className="h-10 w-10 rounded-full bg-muted" />
+          <div key={i} className="flex animate-pulse gap-3">
+            <div className="bg-muted h-10 w-10 rounded-full" />
             <div className="flex-1 space-y-2">
-              <div className="h-4 w-24 rounded bg-muted" />
-              <div className="h-4 w-full rounded bg-muted" />
-              <div className="h-4 w-3/4 rounded bg-muted" />
+              <div className="bg-muted h-4 w-24 rounded" />
+              <div className="bg-muted h-4 w-full rounded" />
+              <div className="bg-muted h-4 w-3/4 rounded" />
             </div>
           </div>
         ))}
@@ -36,8 +36,8 @@ export function CommentList({ postId, postType }: CommentListProps) {
 
   if (error) {
     return (
-      <p className="text-sm text-muted-foreground">
-        Erro ao carregar comentarios. Tente novamente mais tarde.
+      <p className="text-muted-foreground text-sm">
+        Erro ao carregar comentários. Tente novamente mais tarde.
       </p>
     )
   }
@@ -46,8 +46,8 @@ export function CommentList({ postId, postType }: CommentListProps) {
 
   if (comments.length === 0) {
     return (
-      <p className="text-sm text-muted-foreground">
-        Nenhum comentario ainda. Seja o primeiro a comentar!
+      <p className="text-muted-foreground text-sm">
+        Nenhum comentário ainda. Seja o primeiro a comentar!
       </p>
     )
   }

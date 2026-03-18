@@ -101,19 +101,25 @@ export function CommentForm({
         disabled={isSubmitting}
         rows={isReply ? 3 : 4}
       />
-      {error && <p className="text-sm text-destructive">{error}</p>}
+      {error && <p className="text-destructive text-sm">{error}</p>}
       <div className="flex items-center gap-2">
         <Button type="submit" disabled={isSubmitting} size="sm">
           {isSubmitting ? 'Enviando...' : isReply ? 'Responder' : 'Comentar'}
         </Button>
         {isReply && onCancel && (
-          <Button type="button" variant="ghost" size="sm" onClick={onCancel} disabled={isSubmitting}>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={onCancel}
+            disabled={isSubmitting}
+          >
             Cancelar
           </Button>
         )}
       </div>
-      <p className="text-xs text-muted-foreground">
-        Seu email nao sera publicado. Apenas seu nome aparecera junto ao comentario.
+      <p className="text-muted-foreground text-xs">
+        Seu email não será publicado. Apenas seu nome aparecerá junto ao comentário.
       </p>
     </form>
   )
