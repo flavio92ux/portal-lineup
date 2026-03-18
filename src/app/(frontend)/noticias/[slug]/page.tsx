@@ -11,6 +11,7 @@ import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { NewsArticleJsonLd } from '@/components/JsonLd'
+import { Comments } from '@/components/Comments'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -70,6 +71,8 @@ export default async function NoticiaPage({ params: paramsPromise }: Args) {
             />
           </div>
         )}
+
+        <Comments postId={String(post.id)} postType="noticias" />
       </div>
     </article>
   )
