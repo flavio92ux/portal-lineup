@@ -20,8 +20,6 @@ export function Comments({ postId, postType = 'posts' }: CommentsProps) {
     setCommentCount((prev) => prev + 1)
   }, [mutate, postId, postType])
 
-  console.log('Aqui')
-
   return (
     <section className="border-border mt-12 border-t pt-8">
       <h3 className="text-foreground mb-6 text-xl font-semibold">Comentários</h3>
