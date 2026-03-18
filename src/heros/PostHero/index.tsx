@@ -53,7 +53,7 @@ export const PostHero: React.FC<{
 
       {/* Hero Image */}
       {heroImage && typeof heroImage !== 'string' && typeof heroImage !== 'number' && (
-        <div className="bg-secondary relative mb-6 aspect-video w-full overflow-hidden rounded-lg">
+        <div className="relative mb-6 aspect-video w-full overflow-hidden rounded-lg bg-secondary">
           <Media fill priority imgClassName="object-cover" resource={heroImage} />
         </div>
       )}

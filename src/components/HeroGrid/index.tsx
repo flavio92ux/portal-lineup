@@ -28,7 +28,7 @@ export const HeroGrid: React.FC<{ posts: HeroPostData[] }> = ({ posts }) => {
       {/* Main Featured Post */}
       <Link
         href={getPostUrl(mainPost)}
-        className="lg:min-h-88 group relative flex min-h-64 items-end overflow-hidden rounded-xl lg:col-span-3"
+        className="group relative flex min-h-64 items-end overflow-hidden rounded-xl lg:col-span-3 lg:min-h-88"
       >
         {mainPost.heroImage &&
           typeof mainPost.heroImage !== 'string' &&
