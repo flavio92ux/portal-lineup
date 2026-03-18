@@ -52,7 +52,7 @@ export function CommentForm({
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Erro ao enviar comentario')
+        throw new Error(data.error || 'Erro ao enviar comentário')
       }
 
       // Clear form on success
@@ -61,7 +61,7 @@ export function CommentForm({
       setContent('')
       onSuccess?.()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao enviar comentario')
+      setError(err instanceof Error ? err.message : 'Erro ao enviar comentário')
     } finally {
       setIsSubmitting(false)
     }
