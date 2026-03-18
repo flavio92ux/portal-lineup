@@ -15,6 +15,7 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { NewsArticleJsonLd } from '@/components/JsonLd'
+import { Comments } from '@/components/Comments'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -73,6 +74,8 @@ export default async function Post({ params: paramsPromise }: Args) {
             />
           </div>
         )}
+
+        <Comments postId={String(post.id)} postType="posts" />
       </div>
     </article>
   )
