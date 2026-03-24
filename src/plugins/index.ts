@@ -15,7 +15,7 @@ import { Media, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
 const generateTitle: GenerateTitle<Post> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Lineup Brasil` : 'Lineup Brasil'
+  return doc?.title ? `${doc.title}` : 'Portal Lineup'
 }
 
 const generateDescription: GenerateDescription<Post> = ({ doc }) => {

@@ -167,20 +167,20 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 
   if (!author) {
     return {
-      title: 'Autor nao encontrado | Lineup Brasil',
+      title: 'Autor não encontrado',
     }
   }
 
   const serverURL = getServerSideURL()
 
   return {
-    title: `${author.name} | Lineup Brasil`,
-    description: `Perfil e publicações de ${author.name} no Lineup Brasil.`,
+    title: `${author.name} | Portal Lineup`,
+    description: `Perfil e publicações de ${author.name} no Portal Lineup.`,
     openGraph: {
-      title: `${author.name} | Lineup Brasil`,
-      description: `Perfil e publicações de ${author.name} no Lineup Brasil.`,
+      title: `${author.name} | Portal Lineup`,
+      description: `Perfil e publicações de ${author.name} no Portal Lineup.`,
       url: `${serverURL}/autor/${slug}`,
-      siteName: 'Lineup Brasil',
+      siteName: 'Portal Lineup',
       ...((author as any).avatar && typeof (author as any).avatar === 'object'
         ? {
             images: [

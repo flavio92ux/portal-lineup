@@ -175,7 +175,7 @@ export function HomePageJsonLd({ posts }: HomePageJsonLdProps) {
     '@type': 'NewsMediaOrganization',
     '@id': `${serverUrl}/#organization`,
     name: 'Portal Lineup',
-    alternateName: 'Lineup Brasil',
+    alternateName: 'Portal Lineup',
     url: serverUrl,
     logo: {
       '@type': 'ImageObject',
