@@ -1082,6 +1082,7 @@ export interface PostsSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        keywords?: T;
       };
   publishedAt?: T;
   authors?: T;
