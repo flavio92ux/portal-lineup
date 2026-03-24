@@ -81,6 +81,7 @@ export async function Footer() {
             <a
               href="https://flavio92ux.github.io"
               className="underline"
+              title="Flávio Franco Portfólio"
               target="_blank"
               rel="noopener noreferrer"
             >
