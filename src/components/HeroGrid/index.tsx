@@ -28,6 +28,7 @@ export const HeroGrid: React.FC<{ posts: HeroPostData[] }> = ({ posts }) => {
       {/* Main Featured Post */}
       <Link
         href={getPostUrl(mainPost)}
+        title={mainPost.title}
         className="lg:min-h-88 group relative flex min-h-64 items-end overflow-hidden rounded-xl lg:col-span-3"
       >
         {mainPost.heroImage &&
@@ -73,6 +74,7 @@ export const HeroGrid: React.FC<{ posts: HeroPostData[] }> = ({ posts }) => {
           <Link
             key={post.slug}
             href={getPostUrl(post)}
+            title={post.title}
             className="group relative flex min-h-[10rem] flex-1 items-end overflow-hidden rounded-xl"
           >
             {post.heroImage &&

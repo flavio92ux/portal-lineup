@@ -27,6 +27,7 @@ export const ArticleListItem: React.FC<{ post: ArticleListItemData }> = ({ post 
   return (
     <Link
       href={getPostUrl(post)}
+      title={post.title}
       className="border-border hover:bg-secondary/30 group -mx-4 flex gap-4 rounded-lg border-b px-4 py-5 transition-colors"
     >
       {/* Thumbnail */}

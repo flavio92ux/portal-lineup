@@ -74,7 +74,11 @@ export const PostHero: React.FC<{
               return (
                 <span key={author.id || index}>
                   {hasSlug ? (
-                    <Link href={`/autor/${author.slug}`} className="hover:underline">
+                    <Link
+                      title={author.name || 'link do autor'}
+                      href={`/autor/${author.slug}`}
+                      className="hover:underline"
+                    >
                       <span className="text-blue-500 underline">{author.name}</span>
                     </Link>
                   ) : (
