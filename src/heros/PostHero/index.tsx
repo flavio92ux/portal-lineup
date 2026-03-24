@@ -40,7 +40,7 @@ export const PostHero: React.FC<{
 
       {/* Subtitle */}
       {subtitle && (
-        <p className="text-muted-foreground mb-4 text-pretty text-base md:text-lg">{subtitle}</p>
+        <h2 className="text-muted-foreground mb-4 text-pretty text-base md:text-lg">{subtitle}</h2>
       )}
 
       {/* Date */}
