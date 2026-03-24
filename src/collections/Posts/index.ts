@@ -17,7 +17,12 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { YouTubeEmbed } from '../../blocks/YouTubeEmbed/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
-import { revalidateDelete, revalidatePost, revalidatePostRemote, revalidatePostDeleteRemote } from './hooks/revalidatePost'
+import {
+  revalidateDelete,
+  revalidatePost,
+  revalidatePostRemote,
+  revalidatePostDeleteRemote,
+} from './hooks/revalidatePost'
 
 import {
   MetaDescriptionField,
@@ -26,7 +31,8 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
-import { TagSuggestionsField } from '@/fields/tags'export const Posts: CollectionConfig<'posts'> = {
+import { TagSuggestionsField } from '@/fields/tags'
+export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   access: {
     create: authenticated,
@@ -113,7 +119,8 @@ import { TagSuggestionsField } from '@/fields/tags'export const Posts: Collectio
       label: 'Imagem de Capa',
       relationTo: 'media',
       admin: {
-        description: 'Esta imagem também será utilizada como imagem SEO para compartilhamento em redes sociais',
+        description:
+          'Esta imagem também será utilizada como imagem SEO para compartilhamento em redes sociais',
       },
     },
     {
@@ -219,7 +226,8 @@ import { TagSuggestionsField } from '@/fields/tags'export const Posts: Collectio
           pickerAppearance: 'dayAndTime',
         },
         position: 'sidebar',
-        description: 'Data de publicação. Se não informada, será preenchida automaticamente ao publicar.',
+        description:
+          'Data de publicação. Se não informada, será preenchida automaticamente ao publicar.',
       },
       hooks: {
         beforeChange: [
