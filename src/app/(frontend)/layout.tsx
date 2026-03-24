@@ -73,13 +73,48 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
   title: {
-    default: 'PORTAL LINEUP',
-    template: '%s | PORTAL LINEUP',
+    default: 'Portal Lineup - Portal de Notícias sobre Rádio e TV do Brasil',
+    template: '%s | Portal Lineup',
   },
-  description: 'PORTAL LINEUP - As principais noticias sobre radio e TV do Brasil.',
+  description:
+    'Portal Lineup - As principais notícias, análises e colunas sobre rádio e TV do Brasil. Cobertura completa do mercado de comunicação brasileiro.',
+  keywords: [
+    'notícias rádio',
+    'notícias tv',
+    'televisão brasileira',
+    'rádio brasil',
+    'mídia brasileira',
+    'comunicação',
+    'jornalismo',
+    'portal lineup',
+    'bastidores tv',
+    'audiência',
+  ],
+  authors: [{ name: 'Portal Lineup', url: getServerSideURL() }],
+  creator: 'Portal Lineup',
+  publisher: 'Portal Lineup',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: getServerSideURL(),
+  },
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
     creator: '@portallineup',
+    site: '@portallineup',
   },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+  },
+  category: 'news',
 }
