@@ -75,6 +75,12 @@ export function NewsArticleJsonLd({ post, postType }: NewsArticleJsonLdProps) {
       .filter(Boolean)
       .join(', ') || sectionLabel
 
+  // Extract keywords from meta
+  const keywords =
+    post.meta && 'keywords' in post.meta && Array.isArray(post.meta.keywords)
+      ? (post.meta.keywords as string[]).join(', ')
+      : null
+
   const newsArticleSchema = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
@@ -99,6 +105,7 @@ export function NewsArticleJsonLd({ post, postType }: NewsArticleJsonLdProps) {
     url: postUrl,
     ...(categories ? { articleSection: categories } : {}),
     ...(articleBody ? { articleBody } : {}),
+    ...(keywords ? { keywords } : {}),
   }
 
   const breadcrumbSchema = {

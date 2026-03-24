@@ -22,6 +22,8 @@
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
   },
   "dependencies": {
+    "ai": "^6.0.0",
+    "zod": "^3.23.0",
     "@aws-sdk/client-s3": "^3.750.0",
     "@aws-sdk/lib-storage": "^3.750.0",
     "@esbuild-kit/core-utils": "^3.3.2",

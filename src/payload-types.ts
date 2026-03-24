@@ -185,6 +185,7 @@ export interface Post {
   meta?: {
     title?: string | null;
     description?: string | null;
+    keywords?: string[] | null;
   };
   /**
    * Data de publicação. Se não informada, será preenchida automaticamente ao publicar.

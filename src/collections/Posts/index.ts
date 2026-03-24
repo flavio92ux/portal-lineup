@@ -47,6 +47,7 @@ export const Posts: CollectionConfig<'posts'> = {
     heroImage: true,
     meta: {
       description: true,
+      keywords: true,
     },
   },
   admin: {
@@ -192,6 +193,18 @@ export const Posts: CollectionConfig<'posts'> = {
             label: 'Descrição SEO',
           },
         }),
+        {
+          name: 'keywords',
+          type: 'text',
+          label: 'Tags/Keywords',
+          hasMany: true,
+          admin: {
+            description: 'Tags para SEO. Essas keywords serão usadas nos dados estruturados do Google.',
+            components: {
+              Field: '/fields/tags/TagSuggestionsField#TagSuggestionsField',
+            },
+          },
+        },
         PreviewField({
           hasGenerateFn: true,
           titlePath: 'meta.title',

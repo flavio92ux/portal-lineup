@@ -58,6 +58,7 @@ export const generateMeta = async (args: {
           title?: string | null
           description?: string | null
           image?: (number | null) | Media
+          keywords?: string[] | null
         }
       }
     | null
@@ -68,6 +69,7 @@ export const generateMeta = async (args: {
   const imageData = getImageData(doc?.heroImage)
   const title = doc?.meta?.title ? doc?.meta?.title : 'Portal Lineup'
   const description = doc?.meta?.description || ''
+  const keywords = doc?.meta?.keywords || []
 
   // Build the canonical URL based on post type
   let canonicalUrl = serverUrl
@@ -91,6 +93,7 @@ export const generateMeta = async (args: {
   return {
     title,
     description,
+    ...(keywords.length > 0 && { keywords }),
     openGraph: mergeOpenGraph({
       type: 'article',
       description,
