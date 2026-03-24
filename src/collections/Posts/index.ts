@@ -31,7 +31,7 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
-import { TagSuggestionsField } from '@/fields/tags'
+
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   access: {
@@ -206,7 +206,7 @@ export const Posts: CollectionConfig<'posts'> = {
           hasMany: true,
           admin: {
             components: {
-              Field: TagSuggestionsField,
+              Field: '@/fields/tags/TagSuggestionsField#TagSuggestionsField',
             },
           },
         },
