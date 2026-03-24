@@ -1,10 +1,13 @@
 'use client'
 
-import { useField, useFormFields, TextFieldClientComponent } from '@payloadcms/ui'
+import { useField, useFormFields, FieldLabel } from '@payloadcms/ui'
+import type { TextFieldClientProps } from 'payload'
 import { useState, useCallback } from 'react'
 
-const TagSuggestionsField: TextFieldClientComponent = ({ path, field }) => {
-  const { value, setValue } = useField<string[]>({ path })
+type TagSuggestionsFieldProps = TextFieldClientProps
+
+const TagSuggestionsField: React.FC<TagSuggestionsFieldProps> = ({ field, path }) => {
+  const { value, setValue } = useField<string[]>({ path: path || field.name })
   const [inputValue, setInputValue] = useState('')
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -165,12 +168,10 @@ const TagSuggestionsField: TextFieldClientComponent = ({ path, field }) => {
 
   return (
     <div className="field-type text">
-      <label className="field-label">
-        Tags/Keywords
-        <span className="field-description" style={{ display: 'block', marginTop: '4px', fontSize: '12px', color: '#666' }}>
-          Tags para SEO. Essas keywords serao usadas nos dados estruturados do Google.
-        </span>
-      </label>
+      <FieldLabel htmlFor={`field-${path}`} label={field.label} />
+      <p style={{ marginTop: '4px', marginBottom: '12px', fontSize: '12px', color: '#666' }}>
+        Tags para SEO. Essas keywords serao usadas nos dados estruturados do Google.
+      </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {/* Tags display */}

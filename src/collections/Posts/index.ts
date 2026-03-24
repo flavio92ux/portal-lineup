@@ -26,8 +26,7 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
-
-export const Posts: CollectionConfig<'posts'> = {
+import { TagSuggestionsField } from '@/fields/tags'export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   access: {
     create: authenticated,
@@ -199,9 +198,8 @@ export const Posts: CollectionConfig<'posts'> = {
           label: 'Tags/Keywords',
           hasMany: true,
           admin: {
-            description: 'Tags para SEO. Essas keywords serão usadas nos dados estruturados do Google.',
             components: {
-              Field: '/fields/tags/TagSuggestionsField#TagSuggestionsField',
+              Field: TagSuggestionsField,
             },
           },
         },
