@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Link2 } from 'lucide-react'
+import { Link2, MessageCircle } from 'lucide-react'
 
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -65,6 +65,13 @@ export const ShareBar: React.FC<ShareBarProps> = ({ url, title, description }) =
     },
   ]
 
+  const scrollToComments = () => {
+    const section = document.getElementById('comments-section')
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(url)
@@ -97,6 +104,14 @@ export const ShareBar: React.FC<ShareBarProps> = ({ url, title, description }) =
           <link.icon className="h-4 w-4" />
         </a>
       ))}
+      <button
+        onClick={scrollToComments}
+        className="text-muted-foreground hover:text-foreground p-2 transition-colors"
+        aria-label="Ir para comentários"
+        title="Ver comentários"
+      >
+        <MessageCircle className="h-4 w-4" />
+      </button>
       <button
         onClick={copyToClipboard}
         className="text-muted-foreground hover:text-foreground p-2 transition-colors"

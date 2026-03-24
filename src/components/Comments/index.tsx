@@ -21,7 +21,7 @@ export function Comments({ postId, postType = 'posts' }: CommentsProps) {
   }, [mutate, postId, postType])
 
   return (
-    <section className="border-border mt-12 border-t pt-8">
+    <section id="comments-section" className="border-border mt-12 border-t pt-8">
       <h3 className="text-foreground mb-6 text-xl font-semibold">Comentários</h3>
 
       {/* Comment form */}
