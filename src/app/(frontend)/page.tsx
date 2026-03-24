@@ -54,12 +54,18 @@ export default async function HomePage() {
 
   const allPosts = [...heroPostsResult.docs, ...latestPostsResult.docs].map((post) => ({
     title: post.title,
-    slug: post.slug,
+    slug: post.slug || '',
     heroImage:
       post.heroImage && typeof post.heroImage === 'object'
         ? {
             url: post.heroImage.url,
-            sizes: post.heroImage.sizes,
+            sizes: post.heroImage.sizes
+              ? {
+                  og: post.heroImage.sizes.og
+                    ? { url: post.heroImage.sizes.og.url }
+                    : null,
+                }
+              : null,
           }
         : null,
   }))
