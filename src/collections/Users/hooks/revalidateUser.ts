@@ -19,7 +19,7 @@ export const revalidateUser: CollectionAfterChangeHook = ({
       payload.logger.info(`Revalidating user at path: ${path}`)
 
       revalidatePath(path)
-      revalidateTag('authors-sitemap')
+      revalidateTag('authors-sitemap', 'max')
 
       // Se o slug mudou, revalida o antigo também
       if (previousDoc?.slug && previousDoc.slug !== doc.slug) {
@@ -38,7 +38,7 @@ export const revalidateDelete: CollectionAfterDeleteHook = ({ doc, req: { contex
       const path = `/autor/${doc.slug}`
 
       revalidatePath(path)
-      revalidateTag('authors-sitemap')
+      revalidateTag('authors-sitemap', 'max')
     }
   }
 

@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     for (const p of paths) {
       if (type === 'tag') {
-        revalidateTag(p)
+        revalidateTag(p, 'max')
       } else {
         revalidatePath(p)
       }

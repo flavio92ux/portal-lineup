@@ -195,7 +195,7 @@ export function HomePageJsonLd({ posts }: HomePageJsonLdProps) {
       availableLanguage: ['Portuguese'],
     },
     publishingPrinciples: `${serverUrl}/sobre`,
-    foundingDate: '2020',
+    foundingDate: '2026',
     description:
       'Portal de notícias especializado em cobertura do mercado de rádio e televisão brasileiro.',
   }

@@ -21,8 +21,8 @@ export const revalidatePost: CollectionAfterChangeHook<Post> = ({
       payload.logger.info(`Revalidating post at path: ${path}`)
 
       revalidatePath(path)
-      revalidateTag('posts-sitemap')
-      
+      revalidateTag('posts-sitemap', 'max')
+
       // Also revalidate listing pages
       revalidatePath('/')
       revalidatePath('/noticias')
@@ -36,8 +36,8 @@ export const revalidatePost: CollectionAfterChangeHook<Post> = ({
       payload.logger.info(`Revalidating old post at path: ${oldPath}`)
 
       revalidatePath(oldPath)
-      revalidateTag('posts-sitemap')
-      
+      revalidateTag('posts-sitemap', 'max')
+
       // Also revalidate listing pages
       revalidatePath('/')
       revalidatePath('/noticias')
@@ -52,8 +52,8 @@ export const revalidateDelete: CollectionAfterDeleteHook<Post> = ({ doc, req: { 
     const path = getPostUrl(doc)
 
     revalidatePath(path)
-    revalidateTag('posts-sitemap')
-    
+    revalidateTag('posts-sitemap', 'max')
+
     // Also revalidate listing pages
     revalidatePath('/')
     revalidatePath('/noticias')
