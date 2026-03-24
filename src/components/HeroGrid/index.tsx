@@ -56,9 +56,9 @@ export const HeroGrid: React.FC<{ posts: HeroPostData[] }> = ({ posts }) => {
               )}
             </div>
           )}
-          <h1 className="text-balance text-lg font-bold leading-tight text-white md:text-xl lg:text-2xl">
+          <h2 className="text-balance text-lg font-bold leading-tight text-white md:text-xl lg:text-2xl">
             {mainPost.title}
-          </h1>
+          </h2>
           {mainPost.meta?.description && (
             <p className="mt-2 line-clamp-2 max-w-lg text-xs text-white/70">
               {mainPost.meta.description}

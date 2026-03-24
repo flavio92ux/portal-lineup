@@ -21,6 +21,10 @@ export const PostsListing: React.FC<PostsListingProps> = ({
 }) => {
   return (
     <div className="pb-16">
+      <h1 className="text-balance text-lg font-bold leading-tight text-white md:text-xl lg:text-2xl">
+        Portal Lineup - As principais notícias, análises e colunas sobre rádio e TV do Brasil.
+      </h1>
+
       {/* Hero Grid */}
       {heroPosts.length > 0 && (
         <section className="container mb-8">
@@ -36,9 +40,9 @@ export const PostsListing: React.FC<PostsListingProps> = ({
       {/* Article List */}
       <section className="container">
         <div className="flex flex-col gap-2">
-          {latestPosts.map((post) => (
-            <ArticleListItem key={post.slug} post={post} />
-          ))}
+          {latestPosts.map((post, index) =>
+            index < 3 ? null : <ArticleListItem key={post.slug} post={post} />,
+          )}
         </div>
 
         {totalPages && totalPages > 1 && currentPage && (
