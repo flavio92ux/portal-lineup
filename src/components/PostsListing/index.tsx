@@ -21,7 +21,7 @@ export const PostsListing: React.FC<PostsListingProps> = ({
 }) => {
   return (
     <div className="pb-16">
-      <h1 className="text-balance text-lg font-bold leading-tight text-white md:text-xl lg:text-2xl">
+      <h1 className="hidden text-balance text-lg font-bold leading-tight text-white md:text-xl lg:text-2xl">
         Portal Lineup - As principais notícias, análises e colunas sobre rádio e TV do Brasil.
       </h1>
 
