@@ -24,7 +24,7 @@ export const HeroGrid: React.FC<{ posts: HeroPostData[] }> = ({ posts }) => {
   const sidePosts = posts.slice(1, 3)
 
   return (
-    <div className="grid grid-cols-1 gap-3 lg:grid-cols-5">
+    <div className="mb-[60px] grid grid-cols-1 gap-3 lg:mb-0 lg:h-[500px] lg:grid-cols-5">
       {/* Main Featured Post */}
       <Link
         href={getPostUrl(mainPost)}
