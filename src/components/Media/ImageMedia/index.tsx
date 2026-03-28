@@ -62,6 +62,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
   let height: number | undefined
   let alt = altFromProps
   let src: StaticImageData | string = srcFromProps || ''
+  let isR2Image = false
 
   if (!src && resource && typeof resource === 'object') {
     const { alt: altFromResource, height: fullHeight, url, width: fullWidth } = resource
@@ -70,9 +71,10 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     height = fullHeight!
     alt = altFromResource || ''
 
-    const cacheTag = resource.updatedAt
+    // Check if this is an R2 image (R2 already has optimization, so skip Next.js optimization)
+    isR2Image = url.includes('r2.cloudflarestorage.com')
 
-    src = getMediaUrl(url, cacheTag)
+    src = getMediaUrl(url)
   }
 
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
@@ -100,6 +102,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         sizes={sizes}
         src={src}
         width={!fill ? width : undefined}
+        unoptimized={isR2Image}
       />
     </picture>
   )
