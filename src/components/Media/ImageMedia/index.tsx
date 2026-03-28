@@ -72,7 +72,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     alt = altFromResource || ''
 
     // Check if this is an R2 image (R2 already has optimization, so skip Next.js optimization)
-    isR2Image = url.includes('r2.cloudflarestorage.com')
+    isR2Image = url?.includes('r2.cloudflarestorage.com') || false
 
     src = getMediaUrl(url)
   }
