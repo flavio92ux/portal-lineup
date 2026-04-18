@@ -215,6 +215,7 @@ export interface Post {
 export interface Review {
   id: number;
   title: string;
+  headline?: string | null;
   subtitle?: string | null;
   heroImage?: (number | null) | Media;
   product?: {
@@ -1183,6 +1184,7 @@ export interface PostsSelect<T extends boolean = true> {
  */
 export interface ReviewsSelect<T extends boolean = true> {
   title?: T;
+  headline?: T;
   subtitle?: T;
   heroImage?: T;
   product?:
