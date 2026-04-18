@@ -8,6 +8,7 @@ import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
 import { ReviewHero } from '@/heros/ReviewHero'
+import { ReviewVerdict } from '@/components/ReviewVerdict'
 import { generateReviewMeta } from '@/utilities/generateReviewMeta'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { ProductReviewJsonLd } from '@/components/JsonLd'
@@ -59,6 +60,9 @@ export default async function ReviewPage({ params: paramsPromise }: Args) {
           data={review.content}
           enableGutter={false}
         />
+
+        {/* 3. CARD DE VEREDITO FINAL - Pros/Cons + CTA */}
+        <ReviewVerdict review={review} />
 
         {/* Related Reviews */}
         {review.relatedReviews && review.relatedReviews.length > 0 && (
