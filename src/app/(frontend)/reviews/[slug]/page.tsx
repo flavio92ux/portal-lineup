@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 
-import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -75,17 +74,6 @@ export default async function ReviewPage({ params: paramsPromise }: Args) {
                   <ReviewCard key={index} review={relatedReview} />
                 ))}
             </div>
-          </div>
-        )}
-
-        {/* Related Posts */}
-        {review.relatedPosts && review.relatedPosts.length > 0 && (
-          <div className="border-border mt-12 border-t pt-8">
-            <h3 className="text-foreground mb-6 text-base font-semibold">Leia tambem</h3>
-            <RelatedPosts
-              className="!p-0"
-              docs={review.relatedPosts.filter((post) => typeof post === 'object')}
-            />
           </div>
         )}
 
