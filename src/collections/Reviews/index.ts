@@ -154,7 +154,8 @@ export const Reviews: CollectionConfig<'reviews'> = {
       max: 5,
       admin: {
         position: 'sidebar',
-        description: 'Nota de 1 a 5 estrelas',
+        description: 'Nota de 1.0 a 5.0 (ex: 4.5, 3.7)',
+        step: 0.1,
       },
     },
     // Pros
