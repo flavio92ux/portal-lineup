@@ -68,6 +68,7 @@ export interface Config {
   blocks: {};
   collections: {
     posts: Post;
+    reviews: Review;
     pages: Page;
     media: Media;
     categories: Category;
@@ -85,6 +86,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     posts: PostsSelect<false> | PostsSelect<true>;
+    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
@@ -190,6 +192,77 @@ export interface Post {
   /**
    * Data de publicação. Se não informada, será preenchida automaticamente ao publicar.
    */
+  publishedAt?: string | null;
+  authors?: (number | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+        slug?: string | null;
+        avatar?: (number | null) | Media;
+      }[]
+    | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: number;
+  title: string;
+  subtitle?: string | null;
+  heroImage?: (number | null) | Media;
+  product?: {
+    name?: string | null;
+    brand?: string | null;
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  offers?: {
+    price?: number | null;
+    affiliateUrl?: string | null;
+    availability?: ('InStock' | 'OutOfStock' | 'PreOrder' | 'Discontinued') | null;
+  };
+  rating: number;
+  pros?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  cons?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedReviews?: (number | Review)[] | null;
+  categories?: (number | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    keywords?: string[] | null;
+  };
   publishedAt?: string | null;
   authors?: (number | User)[] | null;
   populatedAuthors?:
@@ -986,18 +1059,22 @@ export interface PayloadJob {
 export interface PayloadLockedDocument {
   id: number;
   document?:
-    | ({
-        relationTo: 'posts';
-        value: number | Post;
-      } | null)
-    | ({
-        relationTo: 'pages';
-        value: number | Page;
-      } | null)
-    | ({
-        relationTo: 'media';
-        value: number | Media;
-      } | null)
+  | ({
+  relationTo: 'posts';
+  value: number | Post;
+  } | null)
+  | ({
+  relationTo: 'reviews';
+  value: number | Review;
+  } | null)
+  | ({
+  relationTo: 'pages';
+  value: number | Page;
+  } | null)
+  | ({
+  relationTo: 'media';
+  value: number | Media;
+  } | null)
     | ({
         relationTo: 'categories';
         value: number | Category;
@@ -1076,6 +1153,68 @@ export interface PostsSelect<T extends boolean = true> {
   heroImage?: T;
   content?: T;
   relatedPosts?: T;
+  categories?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        keywords?: T;
+      };
+  publishedAt?: T;
+  authors?: T;
+  populatedAuthors?:
+    | T
+    | {
+        id?: T;
+        name?: T;
+        slug?: T;
+        avatar?: T;
+      };
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews_select".
+ */
+export interface ReviewsSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  heroImage?: T;
+  product?:
+    | T
+    | {
+        name?: T;
+        brand?: T;
+        image?: T;
+        description?: T;
+      };
+  offers?:
+    | T
+    | {
+        price?: T;
+        affiliateUrl?: T;
+        availability?: T;
+      };
+  rating?: T;
+  pros?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  cons?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  content?: T;
+  relatedReviews?: T;
   categories?: T;
   meta?:
     | T
