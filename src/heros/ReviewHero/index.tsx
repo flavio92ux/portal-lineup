@@ -65,7 +65,6 @@ export const ReviewHero: React.FC<{
   review: Review
 }> = ({ review }) => {
   const {
-    headline,
     heroImage,
     populatedAuthors,
     publishedAt,
@@ -91,20 +90,6 @@ export const ReviewHero: React.FC<{
 
   return (
     <div className="container mx-auto max-w-3xl">
-      {/* Versal (Headline) */}
-      {headline && (
-        <div className="mb-4">
-          <span className="text-primary text-xs font-bold uppercase tracking-wider">
-            {headline}
-          </span>
-        </div>
-      )}
-
-      {/* Title */}
-      <h1 className="text-foreground mb-2 text-balance text-2xl font-bold leading-tight md:text-3xl lg:text-4xl">
-        {title}
-      </h1>
-
       {/* Subtitle */}
       {subtitle && (
         <h2 className="text-muted-foreground mb-4 text-pretty text-base md:text-lg">{subtitle}</h2>

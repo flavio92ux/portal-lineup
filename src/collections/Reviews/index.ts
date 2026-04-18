@@ -42,6 +42,7 @@ export const Reviews: CollectionConfig<'reviews'> = {
   },
   defaultPopulate: {
     title: true,
+    subtitle: true,
     slug: true,
     categories: true,
     authors: true,
@@ -50,6 +51,7 @@ export const Reviews: CollectionConfig<'reviews'> = {
     rating: true,
     pros: true,
     cons: true,
+    offers: true,
     meta: {
       description: true,
       keywords: true,
@@ -79,14 +81,6 @@ export const Reviews: CollectionConfig<'reviews'> = {
   },
   fields: [
     {
-      name: 'headline',
-      type: 'text',
-      label: 'Versal',
-      admin: {
-        description: 'Texto curto de destaque para chamar atencao do leitor',
-      },
-    },
-    {
       name: 'title',
       type: 'text',
       label: 'Titulo',
@@ -94,11 +88,8 @@ export const Reviews: CollectionConfig<'reviews'> = {
     },
     {
       name: 'subtitle',
-      type: 'text',
+      type: 'textarea',
       label: 'Subtitulo',
-      admin: {
-        description: 'Texto complementar ao titulo principal',
-      },
     },
     {
       name: 'heroImage',
