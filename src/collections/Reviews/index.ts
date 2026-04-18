@@ -382,26 +382,11 @@ export const Reviews: CollectionConfig<'reviews'> = {
         disabled: true,
         readOnly: true,
       },
-  fields: [
-    {
-      name: 'title',
-      type: 'text',
-      label: 'Titulo',
-      required: true,
-    },
-    {
-      name: 'headline',
-      type: 'text',
-      label: 'Versal',
-      admin: {
-        description: 'Pequeno texto acima do titulo (ex: "Review", "Premium")',
-      },
-    },
-    {
-      name: 'subtitle',
-      type: 'textarea',
-      label: 'Subtitulo',
-    },
+      fields: [
+        {
+          name: 'id',
+          type: 'text',
+        },
         {
           name: 'name',
           type: 'text',
