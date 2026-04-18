@@ -111,13 +111,11 @@ export const Reviews: CollectionConfig<'reviews'> = {
           name: 'name',
           type: 'text',
           label: 'Nome do Produto',
-          required: true,
         },
         {
           name: 'brand',
           type: 'text',
           label: 'Marca',
-          required: true,
         },
         {
           name: 'image',
@@ -203,7 +201,6 @@ export const Reviews: CollectionConfig<'reviews'> = {
         singular: 'Pro',
         plural: 'Pros',
       },
-      minRows: 1,
       fields: [
         {
           name: 'text',
@@ -257,7 +254,6 @@ export const Reviews: CollectionConfig<'reviews'> = {
         },
       }),
       label: false,
-      required: true,
     },
     {
       name: 'relatedPosts',
