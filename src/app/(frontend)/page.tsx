@@ -25,32 +25,48 @@ const postSelectFields = {
   populatedAuthors: true,
 } as const
 
+const reviewSelectFields = {
+  title: true,
+  slug: true,
+  heroImage: true,
+  rating: true,
+  product: true,
+  publishedAt: true,
+  meta: true,
+} as const
+
 export default async function HomePage() {
   const payload = await getPayload({ config: configPromise })
 
-  const heroPostsResult = await payload.find({
-    collection: 'posts',
-    depth: 1,
-    limit: 3,
-    overrideAccess: false,
-    sort: '-publishedAt',
-    where: {
-      _status: { equals: 'published' },
-    },
-    select: postSelectFields,
-  })
-
-  const latestPostsResult = await payload.find({
-    collection: 'posts',
-    depth: 1,
-    limit: 15,
-    overrideAccess: false,
-    sort: '-publishedAt',
-    where: {
-      _status: { equals: 'published' },
-    },
-    select: postSelectFields,
-  })
+  const [heroPostsResult, latestPostsResult, latestReviewsResult] = await Promise.all([
+    payload.find({
+      collection: 'posts',
+      depth: 1,
+      limit: 3,
+      overrideAccess: false,
+      sort: '-publishedAt',
+      where: { _status: { equals: 'published' } },
+      select: postSelectFields,
+    }),
+    payload.find({
+      collection: 'posts',
+      depth: 1,
+      limit: 15,
+      overrideAccess: false,
+      sort: '-publishedAt',
+      where: { _status: { equals: 'published' } },
+      select: postSelectFields,
+    }),
+    payload.find({
+      collection: 'reviews',
+      depth: 1,
+      limit: 10,
+      overrideAccess: false,
+      sort: '-publishedAt',
+      where: { _status: { equals: 'published' } },
+      select: reviewSelectFields,
+    }),
+  ])
 
   const allPosts = [...heroPostsResult.docs, ...latestPostsResult.docs].map((post) => ({
     title: post.title,
@@ -76,6 +92,7 @@ export default async function HomePage() {
       <PostsListing
         heroPosts={heroPostsResult.docs}
         latestPosts={latestPostsResult.docs}
+        latestReviews={latestReviewsResult.docs}
         sectionTitle="Últimas Publicações"
         currentPage={latestPostsResult.page}
         totalPages={latestPostsResult.totalPages}

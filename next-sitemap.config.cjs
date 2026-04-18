@@ -15,9 +15,11 @@ module.exports = {
     '/posts-sitemap.xml',
     '/pages-sitemap.xml',
     '/authors-sitemap.xml',
+    '/reviews-sitemap.xml',
     '/posts/*',
     '/noticias/*',
     '/autor/*',
+    '/reviews/*',
   ],
   robotsTxtOptions: {
     policies: [
@@ -30,6 +32,7 @@ module.exports = {
       `${SITE_URL}/pages-sitemap.xml`,
       `${SITE_URL}/posts-sitemap.xml`,
       `${SITE_URL}/authors-sitemap.xml`,
+      `${SITE_URL}/reviews-sitemap.xml`,
     ],
   },
 }
