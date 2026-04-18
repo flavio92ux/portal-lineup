@@ -1,4 +1,4 @@
-import type { Post } from '@/payload-types'
+import type { Post, Review } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
 type NewsArticleJsonLdProps = {
@@ -138,6 +138,143 @@ export function NewsArticleJsonLd({ post, postType }: NewsArticleJsonLdProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(newsArticleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+    </>
+  )
+}
+
+type ProductReviewJsonLdProps = {
+  review: Review
+}
+
+export function ProductReviewJsonLd({ review }: ProductReviewJsonLdProps) {
+  const serverUrl = getServerSideURL()
+  const reviewUrl = `${serverUrl}/reviews/${review.slug}`
+
+  // Product image
+  const productImage =
+    review.product?.image && typeof review.product.image === 'object' && 'url' in review.product.image
+      ? review.product.image
+      : null
+
+  const heroImage =
+    review.heroImage && typeof review.heroImage === 'object' && 'url' in review.heroImage
+      ? review.heroImage
+      : null
+
+  const productImageUrl =
+    productImage?.sizes?.og?.url ||
+    productImage?.url ||
+    heroImage?.sizes?.og?.url ||
+    heroImage?.url ||
+    `${serverUrl}/web-app-manifest-512x512.png`
+
+  // Authors
+  const authors =
+    review.populatedAuthors
+      ?.filter((a) => a.name)
+      .map((a) => ({
+        '@type': 'Person',
+        name: a.name,
+        ...(a.slug ? { url: `${serverUrl}/autor/${a.slug}` } : {}),
+      })) || []
+
+  const authorForReview =
+    authors.length > 0 ? authors[0] : { '@type': 'Organization', name: 'Portal Lineup' }
+
+  // Build positiveNotes ItemList
+  const positiveNotes =
+    review.pros && review.pros.length > 0
+      ? {
+          '@type': 'ItemList',
+          itemListElement: review.pros.map((pro, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: pro.text,
+          })),
+        }
+      : undefined
+
+  // Build negativeNotes ItemList
+  const negativeNotes =
+    review.cons && review.cons.length > 0
+      ? {
+          '@type': 'ItemList',
+          itemListElement: review.cons.map((con, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: con.text,
+          })),
+        }
+      : undefined
+
+  // Extract article body from content
+  const articleBody = review.content?.root
+    ? extractTextFromNode(review.content.root).replace(/\s+/g, ' ').trim()
+    : ''
+
+  // Product schema with embedded Review
+  const productSchema = {
+    '@context': 'https://schema.org/',
+    '@type': 'Product',
+    name: review.product?.name || review.title,
+    image: [productImageUrl],
+    description: review.product?.description || review.subtitle || '',
+    brand: {
+      '@type': 'Brand',
+      name: review.product?.brand || 'N/A',
+    },
+    review: {
+      '@type': 'Review',
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: String(review.rating || 0),
+        bestRating: '5',
+        worstRating: '1',
+      },
+      author: authorForReview,
+      datePublished: review.publishedAt || review.createdAt,
+      reviewBody: articleBody.slice(0, 500) || undefined,
+      ...(positiveNotes ? { positiveNotes } : {}),
+      ...(negativeNotes ? { negativeNotes } : {}),
+    },
+  }
+
+  // BreadcrumbList
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: serverUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Reviews',
+        item: `${serverUrl}/reviews`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: review.title,
+        item: reviewUrl,
+      },
+    ],
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
       />
       <script
         type="application/ld+json"

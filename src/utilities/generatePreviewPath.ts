@@ -22,6 +22,8 @@ export const generatePreviewPath = ({ collection, slug, postType }: Props) => {
     path = postType === 'column' ? `/colunas/${encodedSlug}` : `/noticias/${encodedSlug}`
   } else if (collection === 'pages') {
     path = `/${encodedSlug}`
+  } else if (collection === 'reviews') {
+    path = `/reviews/${encodedSlug}`
   } else {
     path = `/${collection}/${encodedSlug}`
   }
