@@ -129,6 +129,11 @@ export const ReviewVerdict: React.FC<ReviewVerdictProps> = ({ review }) => {
       ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(offers.price)
       : null
 
+  // Format last verified date
+  const lastVerifiedDate = review.updatedAt
+    ? new Date(review.updatedAt).toLocaleDateString('pt-BR')
+    : new Date(review.createdAt).toLocaleDateString('pt-BR')
+
   return (
     <div className="bg-card border-border mt-10 overflow-hidden rounded-xl border shadow-sm">
       {/* Header */}
@@ -170,36 +175,46 @@ export const ReviewVerdict: React.FC<ReviewVerdictProps> = ({ review }) => {
 
         {/* CTA - Price / Affiliate Link */}
         {hasOffer && (
-          <div className="border-border flex flex-col items-center gap-4 border-t pt-6 sm:flex-row sm:justify-between">
-            {/* Price Display */}
+          <div className="border-border flex flex-col gap-4 border-t pt-6">
+            {/* Price Display - Reduced prominence */}
             {formattedPrice && (
-              <div className="text-center sm:text-left">
-                <p className="text-muted-foreground text-xs uppercase tracking-wide">
-                  Preco medio
-                </p>
-                <p className="text-foreground text-2xl font-bold">{formattedPrice}</p>
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-muted-foreground text-xs uppercase tracking-wide">
+                    Faixa de preço encontrada
+                  </p>
+                  <p className="text-foreground text-xl font-semibold">{formattedPrice}</p>
+                  <p className="text-muted-foreground text-xs mt-1">
+                    Verificado em {lastVerifiedDate}
+                  </p>
+                </div>
+
+                {/* Affiliate Button - Outline style for secondary prominence */}
+                {offers?.affiliateUrl && (
+                  <a
+                    href={offers.affiliateUrl}
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    className="border-primary text-primary hover:bg-primary/5 inline-flex items-center justify-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors flex-shrink-0"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                    Consultar Ofertas
+                  </a>
+                )}
               </div>
             )}
 
-            {/* Affiliate Button */}
-            {offers?.affiliateUrl && (
-              <a
-                href={offers.affiliateUrl}
-                target="_blank"
-                rel="noopener noreferrer nofollow"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold transition-colors"
-              >
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-                Ver Preco Atual
-              </a>
-            )}
+            {/* Affiliate Disclaimer */}
+            <p className="text-muted-foreground text-xs leading-relaxed border-t border-border pt-3">
+              Este link pode gerar uma pequena comissão para o Portal Lineup, sem custo adicional para você. Isso ajuda a manter nossos testes independentes.
+            </p>
           </div>
         )}
       </div>
