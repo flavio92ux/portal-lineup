@@ -217,6 +217,21 @@ export function ProductReviewJsonLd({ review }: ProductReviewJsonLdProps) {
     ? extractTextFromNode(review.content.root).replace(/\s+/g, ' ').trim()
     : ''
 
+  // Build offers object when price or affiliateUrl are present
+  const offersData = review.offers
+  const hasOffers = offersData && (offersData.price != null || offersData.affiliateUrl)
+  const offersSchema = hasOffers
+    ? {
+        '@type': 'Offer',
+        availability: `https://schema.org/${offersData.availability ?? 'InStock'}`,
+        priceCurrency: 'BRL',
+        ...(offersData.price != null
+          ? { price: String(offersData.price.toFixed(2)) }
+          : {}),
+        ...(offersData.affiliateUrl ? { url: offersData.affiliateUrl } : {}),
+      }
+    : undefined
+
   // Product schema with embedded Review
   const productSchema = {
     '@context': 'https://schema.org/',
@@ -228,6 +243,7 @@ export function ProductReviewJsonLd({ review }: ProductReviewJsonLdProps) {
       '@type': 'Brand',
       name: review.product?.brand || 'N/A',
     },
+    ...(offersSchema ? { offers: offersSchema } : {}),
     review: {
       '@type': 'Review',
       reviewRating: {

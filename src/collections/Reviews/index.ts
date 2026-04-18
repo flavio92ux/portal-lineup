@@ -144,6 +144,51 @@ export const Reviews: CollectionConfig<'reviews'> = {
         },
       ],
     },
+    // Offers Group
+    {
+      name: 'offers',
+      type: 'group',
+      label: 'Oferta / Preco',
+      admin: {
+        description:
+          'Preencha para adicionar dados de oferta ao schema do produto (ajuda a ocupar mais espaco visual na busca do Google)',
+      },
+      fields: [
+        {
+          name: 'price',
+          type: 'number',
+          label: 'Preco (R$)',
+          min: 0,
+          admin: {
+            description: 'Preco medio ou sugerido do produto',
+            step: 0.01,
+          },
+        },
+        {
+          name: 'affiliateUrl',
+          type: 'text',
+          label: 'Link de Afiliado / Compra',
+          admin: {
+            description: 'URL para compra ou link de afiliado (opcional)',
+          },
+        },
+        {
+          name: 'availability',
+          type: 'select',
+          label: 'Disponibilidade',
+          defaultValue: 'InStock',
+          options: [
+            { label: 'Em Estoque', value: 'InStock' },
+            { label: 'Fora de Estoque', value: 'OutOfStock' },
+            { label: 'Pre-venda', value: 'PreOrder' },
+            { label: 'Descontinuado', value: 'Discontinued' },
+          ],
+          admin: {
+            description: 'Status de disponibilidade do produto',
+          },
+        },
+      ],
+    },
     // Rating
     {
       name: 'rating',
