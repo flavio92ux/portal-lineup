@@ -64,17 +64,8 @@ function StarRating({ rating, size = 'md' }: { rating: number; size?: 'sm' | 'md
 export const ReviewHero: React.FC<{
   review: Review
 }> = ({ review }) => {
-  const {
-    heroImage,
-    populatedAuthors,
-    publishedAt,
-    subtitle,
-    title,
-    slug,
-    meta,
-    product,
-    rating,
-  } = review
+  const { heroImage, populatedAuthors, publishedAt, subtitle, title, slug, meta, product, rating } =
+    review
 
   const baseUrl = getServerSideURL()
   const reviewPath = `/reviews/${slug}`
@@ -89,10 +80,12 @@ export const ReviewHero: React.FC<{
       : null
 
   return (
-    <div className="container mx-auto max-w-3xl">
+    <div className="container mx-auto">
       {/* Subtitle */}
       {subtitle && (
-        <h2 className="text-muted-foreground mb-4 text-pretty text-base md:text-lg">{subtitle}</h2>
+        <h2 className="mb-3 text-[18px] leading-6 text-[#555] lg:mb-4 lg:text-[20px] lg:leading-7">
+          {subtitle}
+        </h2>
       )}
 
       {/* 1. SCOREBOX COMPACTO NO TOPO */}
@@ -106,9 +99,7 @@ export const ReviewHero: React.FC<{
         {/* Product Info */}
         <div className="flex flex-1 flex-col gap-1">
           <p className="text-foreground text-base font-semibold">{product?.name || title}</p>
-          {product?.brand && (
-            <p className="text-muted-foreground text-sm">{product.brand}</p>
-          )}
+          {product?.brand && <p className="text-muted-foreground text-sm">{product.brand}</p>}
         </div>
         {/* Rating Badge */}
         <div className="flex flex-col items-end gap-1">
@@ -154,17 +145,17 @@ export const ReviewHero: React.FC<{
             <time dateTime={publishedAt}>{formatDateTime(publishedAt)}</time>
           </p>
         )}
+      </div>
 
-        {/* Share Bar */}
-        <div className="ml-auto">
-          <ShareBar url={fullUrl} title={title} description={meta?.description || subtitle || ''} />
-        </div>
+      {/* Share Bar */}
+      <div className="mb-4 ml-auto flex items-center justify-center border-y-2">
+        <ShareBar url={fullUrl} title={title} description={meta?.description || subtitle || ''} />
       </div>
 
       {/* Hero Image */}
       {heroImage && typeof heroImage !== 'string' && typeof heroImage !== 'number' && (
-        <div className="bg-secondary relative mb-6 aspect-video w-full overflow-hidden rounded-lg">
-          <Media fill priority imgClassName="object-cover" resource={heroImage} />
+        <div className="relative mb-6 flex justify-center overflow-hidden rounded-lg">
+          <Media priority resource={heroImage} />
         </div>
       )}
     </div>

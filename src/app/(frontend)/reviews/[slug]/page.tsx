@@ -4,7 +4,7 @@ import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
-import React, { cache } from 'react'
+import { cache } from 'react'
 import RichText from '@/components/RichText'
 import { ReviewHero } from '@/heros/ReviewHero'
 import { ReviewVerdict } from '@/components/ReviewVerdict'
@@ -45,20 +45,20 @@ export default async function ReviewPage({ params: paramsPromise }: Args) {
   if (!review) return <PayloadRedirects url={url} />
 
   return (
-    <article className="pb-16 pt-8">
+    <article>
       <ProductReviewJsonLd review={review} />
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
 
+      <p className="lg:leading-16 container mx-auto mb-3 font-sans text-3xl font-bold lg:mb-4 lg:text-6xl">
+        {review.title}
+      </p>
+
       <ReviewHero review={review} />
 
-      <div className="container mx-auto max-w-3xl">
-        <RichText
-          className="prose-sm md:prose dark:prose-invert max-w-none"
-          data={review.content}
-          enableGutter={false}
-        />
+      <div className="container mx-auto">
+        <RichText className="" data={review.content} enableGutter={false} />
 
         {/* 3. CARD DE VEREDITO FINAL - Pros/Cons + CTA */}
         <ReviewVerdict review={review} />
