@@ -1,5 +1,8 @@
 # Portal de Rádio - CMS (Payload CMS)
 
+> 📘 **Procurando o manual prático de manutenção sem IA?**  
+> Acesse o [Manual Definitivo de Manutenção](file:///home/flavio/Projetos/portal-lineup/MANUAL_DE_MANUTENCAO.md) para entender a arquitetura, receitas passo a passo, comandos e resolução de problemas comuns.
+
 Documentação completa do sistema de gerenciamento de conteúdo para o Portal de Rádio. Este projeto é construído sobre o **Payload CMS 3.77.0** com **Next.js 15**, oferecendo uma solução enterprise-grade para gerenciar websites, blogs e plataformas de conteúdo.
 
 ---
