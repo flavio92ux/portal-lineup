@@ -70,6 +70,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.POSTGRES_URL || '',
     },
+    push: false,
   }),
   collections: [Posts, Reviews, Pages, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),

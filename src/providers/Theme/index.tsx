@@ -8,6 +8,17 @@ import canUseDOM from '@/utilities/canUseDOM'
 import { defaultTheme, getImplicitPreference, themeLocalStorageKey } from './shared'
 import { themeIsValid } from './types'
 
+// Suprime o falso-positivo de aviso de tag <script> no React 19 em ambiente de desenvolvimento
+if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+  const origError = console.error
+  console.error = (...args: unknown[]) => {
+    if (typeof args[0] === 'string' && args[0].includes('Encountered a script tag')) {
+      return
+    }
+    origError(...args)
+  }
+}
+
 const initialContext: ThemeContextType = {
   setTheme: () => null,
   theme: undefined,
