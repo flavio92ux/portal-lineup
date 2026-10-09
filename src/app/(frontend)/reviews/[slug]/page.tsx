@@ -54,11 +54,13 @@ export default async function ReviewPage({ params: paramsPromise }: Args) {
       <ReviewHero review={review} />
 
       <div className="container mx-auto max-w-3xl">
-        <RichText
-          className="prose-sm md:prose dark:prose-invert max-w-none"
-          data={review.content}
-          enableGutter={false}
-        />
+        {review.content && (
+          <RichText
+            className="prose-sm md:prose dark:prose-invert max-w-none"
+            data={review.content}
+            enableGutter={false}
+          />
+        )}
 
         {/* 3. CARD DE VEREDITO FINAL - Pros/Cons + CTA */}
         <ReviewVerdict review={review} />
