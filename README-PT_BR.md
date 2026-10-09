@@ -22,6 +22,7 @@ Documentação completa do sistema de gerenciamento de conteúdo para o Portal d
 14. [Funcionalidades Avançadas](#funcionalidades-avançadas)
 15. [Scripts e Comandos](#scripts-e-comandos)
 16. [Deployment](#deployment)
+17. [Sincronização de Notícias - Dial Rádio](SYNC_DIALRADIO.md)
 
 ---
 

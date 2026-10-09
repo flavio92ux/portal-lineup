@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "b18f3a52-9c34-4b52-b88a-23d9178cb472",
+		"name": "Portal Lineup - Sync Dial Rádio",
+		"description": "Collection do Postman para gerenciamento e disparo da sincronização de notícias do Dial Rádio para o Payload CMS.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Sincronizar e Publicar (Bearer Token)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{cronSecret}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/cron/sync-dialradio",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"cron",
+						"sync-dialradio"
+					]
+				},
+				"description": "Executa a sincronização padrão das notícias do RSS (até 15 matérias), publicando-as diretamente no portal com autenticação via Bearer token."
+			},
+			"response": []
+		},
+		{
+			"name": "2. Sincronizar e Publicar (Query Secret)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/cron/sync-dialradio?secret={{cronSecret}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"cron",
+						"sync-dialradio"
+					],
+					"query": [
+						{
+							"key": "secret",
+							"value": "{{cronSecret}}",
+							"description": "Token secreto definido em CRON_SECRET"
+						}
+					]
+				},
+				"description": "Executa a sincronização passando o token pela URL (?secret=). Recomendado para serviços de cron externos (como cron-job.org) que realizam requisições GET simples."
+			},
+			"response": []
+		},
+		{
+			"name": "3. Sincronizar com Limite Customizado (ex: 5)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{cronSecret}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/cron/sync-dialradio?limit=5",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"cron",
+						"sync-dialradio"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "5",
+							"description": "Quantidade máxima de matérias do RSS a serem processadas nesta execução"
+						}
+					]
+				},
+				"description": "Permite definir quantas matérias do feed serão avaliadas para importação."
+			},
+			"response": []
+		},
+		{
+			"name": "4. Sincronizar como Rascunho (draft=true)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{cronSecret}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/cron/sync-dialradio?draft=true&limit=5",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"cron",
+						"sync-dialradio"
+					],
+					"query": [
+						{
+							"key": "draft",
+							"value": "true",
+							"description": "Se true, salva as notícias como rascunho em vez de publicar imediatamente"
+						},
+						{
+							"key": "limit",
+							"value": "5",
+							"description": "Limite de itens a processar"
+						}
+					]
+				},
+				"description": "Útil para testes ou para moderação: as notícias são importadas, mas salvas como rascunho para que o editor revise no painel admin antes de publicar."
+			},
+			"response": []
+		},
+		{
+			"name": "5. Teste de Segurança (Token Inválido - Espera 401)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/cron/sync-dialradio?secret=token_invalido",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"cron",
+						"sync-dialradio"
+					],
+					"query": [
+						{
+							"key": "secret",
+							"value": "token_invalido"
+						}
+					]
+				},
+				"description": "Valida se o endpoint está devidamente bloqueado contra acessos não autorizados (deve retornar HTTP 401)."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string",
+			"description": "URL base da aplicação (ajuste para localhost:3001 ou seu domínio de produção)"
+		},
+		{
+			"key": "cronSecret",
+			"value": "flavinho123",
+			"type": "string",
+			"description": "Valor correspondente à variável de ambiente CRON_SECRET no .env"
+		}
+	]
+}

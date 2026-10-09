@@ -210,77 +210,6 @@ export interface Post {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "reviews".
- */
-export interface Review {
-  id: number;
-  title: string;
-  subtitle?: string | null;
-  heroImage?: (number | null) | Media;
-  product?: {
-    name?: string | null;
-    brand?: string | null;
-    image?: (number | null) | Media;
-    description?: string | null;
-  };
-  offers?: {
-    price?: number | null;
-    affiliateUrl?: string | null;
-    availability?: ('InStock' | 'OutOfStock' | 'PreOrder' | 'Discontinued') | null;
-  };
-  rating: number;
-  pros?:
-    | {
-        text: string;
-        id?: string | null;
-      }[]
-    | null;
-  cons?:
-    | {
-        text: string;
-        id?: string | null;
-      }[]
-    | null;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  relatedReviews?: (number | Review)[] | null;
-  categories?: (number | Category)[] | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    keywords?: string[] | null;
-  };
-  publishedAt?: string | null;
-  authors?: (number | User)[] | null;
-  populatedAuthors?:
-    | {
-        id?: string | null;
-        name?: string | null;
-        slug?: string | null;
-        avatar?: (number | null) | Media;
-      }[]
-    | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
@@ -465,6 +394,102 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: number;
+  title: string;
+  subtitle?: string | null;
+  /**
+   * Esta imagem tambem sera utilizada como imagem SEO para compartilhamento em redes sociais
+   */
+  heroImage?: (number | null) | Media;
+  product?: {
+    name?: string | null;
+    brand?: string | null;
+    image?: (number | null) | Media;
+    /**
+     * Descricao breve do produto para SEO
+     */
+    description?: string | null;
+  };
+  /**
+   * Preencha para adicionar dados de oferta ao schema do produto (ajuda a ocupar mais espaco visual na busca do Google)
+   */
+  offers?: {
+    /**
+     * Preco medio ou sugerido do produto
+     */
+    price?: number | null;
+    /**
+     * URL para compra ou link de afiliado (opcional)
+     */
+    affiliateUrl?: string | null;
+    /**
+     * Status de disponibilidade do produto
+     */
+    availability?: ('InStock' | 'OutOfStock' | 'PreOrder' | 'Discontinued') | null;
+  };
+  /**
+   * Nota de 1.0 a 5.0 (ex: 4.5, 3.7)
+   */
+  rating: number;
+  pros?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  cons?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  relatedPosts?: (number | Post)[] | null;
+  relatedReviews?: (number | Review)[] | null;
+  categories?: (number | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    keywords?: string[] | null;
+  };
+  /**
+   * Data de publicacao. Se nao informada, sera preenchida automaticamente ao publicar.
+   */
+  publishedAt?: string | null;
+  authors?: (number | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+        slug?: string | null;
+        avatar?: (number | null) | Media;
+      }[]
+    | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1059,22 +1084,22 @@ export interface PayloadJob {
 export interface PayloadLockedDocument {
   id: number;
   document?:
-  | ({
-  relationTo: 'posts';
-  value: number | Post;
-  } | null)
-  | ({
-  relationTo: 'reviews';
-  value: number | Review;
-  } | null)
-  | ({
-  relationTo: 'pages';
-  value: number | Page;
-  } | null)
-  | ({
-  relationTo: 'media';
-  value: number | Media;
-  } | null)
+    | ({
+        relationTo: 'posts';
+        value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'reviews';
+        value: number | Review;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
     | ({
         relationTo: 'categories';
         value: number | Category;
@@ -1214,6 +1239,7 @@ export interface ReviewsSelect<T extends boolean = true> {
         id?: T;
       };
   content?: T;
+  relatedPosts?: T;
   relatedReviews?: T;
   categories?: T;
   meta?:
@@ -1921,6 +1947,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'posts';
           value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'reviews';
+          value: number | Review;
         } | null)
       | ({
           relationTo: 'pages';
