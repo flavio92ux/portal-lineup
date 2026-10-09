@@ -3,6 +3,7 @@ import config from '@payload-config'
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { syncDialRadioNews } from '@/lib/importers/dialradio/syncDialRadioNews'
+import { syncTudoRadioNews } from '@/lib/importers/tudoradio/syncTudoRadioNews'
 
 export const maxDuration = 120 // Permite até 2 minutos de execução para downloads e importações
 export const dynamic = 'force-dynamic'
@@ -63,15 +64,44 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
   const limitParam = req.nextUrl.searchParams.get('limit')
   const draftParam = req.nextUrl.searchParams.get('draft')
-  const limit = limitParam ? parseInt(limitParam, 10) : 15
+  const sourceParam = (req.nextUrl.searchParams.get('source') || 'all').toLowerCase()
+  const limit = limitParam ? parseInt(limitParam, 10) : 10
   const forceDraft = draftParam === 'true'
 
+  const startedAt = new Date().toISOString()
+
   try {
-    const report = await syncDialRadioNews(payload, { limit, forceDraft })
-    return NextResponse.json(report)
+    if (sourceParam === 'dialradio') {
+      const dialReport = await syncDialRadioNews(payload, { limit, forceDraft })
+      return NextResponse.json(dialReport)
+    }
+
+    if (sourceParam === 'tudoradio') {
+      const tudoReport = await syncTudoRadioNews(payload, { limit, forceDraft })
+      return NextResponse.json(tudoReport)
+    }
+
+    // Execução conjunta padrão (mesma cron rodando Dial Rádio + Tudo Rádio)
+    payload.logger.info('[Cron Sync News] Executando rotina para Dial Rádio e Tudo Rádio...')
+    const dialReport = await syncDialRadioNews(payload, { limit, forceDraft })
+    const tudoReport = await syncTudoRadioNews(payload, { limit, forceDraft })
+
+    const finishedAt = new Date().toISOString()
+
+    return NextResponse.json({
+      success: dialReport.success && tudoReport.success,
+      source: 'all',
+      totalImported: dialReport.importedCount + tudoReport.importedCount,
+      totalSkipped: dialReport.skippedCount + tudoReport.skippedCount,
+      totalErrors: dialReport.errorCount + tudoReport.errorCount,
+      dialradio: dialReport,
+      tudoradio: tudoReport,
+      startedAt,
+      finishedAt,
+    })
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error)
-    payload.logger.error(`[Cron Sync DialRadio] Erro fatal: ${msg}`)
+    payload.logger.error(`[Cron Sync News] Erro fatal: ${msg}`)
     return NextResponse.json({ success: false, error: msg }, { status: 500 })
   }
 }
@@ -79,3 +109,4 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 export async function POST(req: NextRequest): Promise<NextResponse> {
   return GET(req)
 }
+

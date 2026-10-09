@@ -1,42 +1,47 @@
-# Sincronização e Publicação Automática de Notícias (Dial Rádio)
+# Sincronização e Publicação Automática de Notícias (Dial Rádio & Tudo Rádio)
 
-Este módulo implementa a coleta, conversão e publicação automática de notícias a partir do portal **Dial Rádio** (`https://dialradio.com.br`) diretamente no **Payload CMS** do Portal Lineup.
+Este módulo implementa a coleta, conversão e publicação automática de notícias a partir dos portais:
+- **Dial Rádio** (`https://dialradio.com.br`) via Feed RSS + SSR.
+- **Tudo Rádio** (`https://tudoradio.com`) via Sitemap XML (`https://tudoradio.com/sitemaps/noticias.xml`) + scraping inteligente de JSON-LD e HTML.
+
+Diretamente no **Payload CMS** do Portal Lineup.
 
 ---
 
 ## 1. Visão Geral da Arquitetura
 
-O processo combina a leveza do feed **RSS** com a extração completa do corpo da notícia através da desidratação **SSR (Vike)** da página de destino, sem necessidade de navegadores pesados (como Puppeteer ou Playwright):
+O processo combina a leitura de fontes leves (Feed **RSS** para Dial Rádio e **Sitemap XML** para Tudo Rádio) com extração rica de metadados e conversão do corpo da notícia para o **Lexical AST**, sem necessidade de navegadores pesados (como Puppeteer ou Playwright):
 
 ```
-┌─────────────────────────────────┐
-│ Feed RSS: dialradio.com.br/rss  │ ──> Lista os 50 artigos mais recentes
-└─────────────────────────────────┘
-                 │
-                 ▼
-┌─────────────────────────────────┐
-│ Verificação Anti-Duplicação     │ ──> Checa se o slug ou título já existe no banco
-└─────────────────────────────────┘
-                 │ (Apenas novos)
-                 ▼
-┌─────────────────────────────────┐
-│ Fetch da Página da Notícia      │ ──> Extrai <script id="vike_pageContext">
-└─────────────────────────────────┘
-                 │
-                 ▼
-┌─────────────────────────────────┐
-│ Conversão HTML -> Lexical AST   │ ──> Converte tags (<p>, <strong>, etc.) para nós Lexical
-└─────────────────────────────────┘
-                 │
-                 ▼
-┌─────────────────────────────────┐
-│ Download & Upload de Mídia      │ ──> Salva imagem em WebP na collection 'media' (Cloudflare R2)
-└─────────────────────────────────┘
-                 │
-                 ▼
-┌─────────────────────────────────┐
-│ Categorias & Publicação Direta  │ ──> Cria post publicado (_status: 'published') em 'posts'
-└─────────────────────────────────┘
+┌──────────────────────────────────────────────┐
+│ Dial Rádio: dialradio.com.br/rss             │
+│ Tudo Rádio: tudoradio.com/sitemaps/noticias  │
+└──────────────────────────────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│ Verificação Anti-Duplicação                  │ ──> Checa se o slug ou título já existe no banco
+└──────────────────────────────────────────────┘
+                       │ (Apenas novos)
+                       ▼
+┌──────────────────────────────────────────────┐
+│ Fetch da Notícia & Extração Estruturada      │ ──> JSON-LD (NewsArticle), SSR Context e HTML prose
+└──────────────────────────────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│ Conversão HTML -> Lexical AST                │ ──> Converte tags (<p>, <strong>, etc.) para nós Lexical
+└──────────────────────────────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│ Download & Upload de Mídia                   │ ──> Salva imagem em WebP/JPEG na collection 'media'
+└──────────────────────────────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│ Categorias & Publicação Direta               │ ──> Cria post publicado (_status: 'published') em 'posts'
+└──────────────────────────────────────────────┘
 ```
 
 ---
@@ -48,9 +53,13 @@ Os arquivos implementados estão organizados da seguinte forma:
 | Arquivo | Função |
 | :--- | :--- |
 | [`src/lib/importers/dialradio/htmlToLexical.ts`](file:///home/flavio/Projetos/portal-lineup/src/lib/importers/dialradio/htmlToLexical.ts) | Converte o HTML da notícia para a árvore AST nativa do Lexical Editor. Preserva negrito, itálico, sublinhado, links e títulos, além de limpar parágrafos vazios e rodapés de redação. |
-| [`src/lib/importers/dialradio/syncDialRadioNews.ts`](file:///home/flavio/Projetos/portal-lineup/src/lib/importers/dialradio/syncDialRadioNews.ts) | Serviço principal: lê o RSS, evita duplicatas, baixa imagens para a collection `media`, associa/cria categorias e salva os posts publicados. |
-| [`src/app/api/cron/sync-dialradio/route.ts`](file:///home/flavio/Projetos/portal-lineup/src/app/api/cron/sync-dialradio/route.ts) | Endpoint HTTP seguro (`GET` e `POST`) para execução via cron externo, Vercel Cron ou webhook. |
-| [`src/scripts/syncDialRadio.ts`](file:///home/flavio/Projetos/portal-lineup/src/scripts/syncDialRadio.ts) | Script CLI executável diretamente pelo Payload CLI. |
+| [`src/lib/importers/dialradio/syncDialRadioNews.ts`](file:///home/flavio/Projetos/portal-lineup/src/lib/importers/dialradio/syncDialRadioNews.ts) | Serviço do Dial Rádio: lê o RSS, evita duplicatas, baixa imagens para a collection `media`, associa/cria categorias e salva os posts publicados. |
+| [`src/lib/importers/tudoradio/syncTudoRadioNews.ts`](file:///home/flavio/Projetos/portal-lineup/src/lib/importers/tudoradio/syncTudoRadioNews.ts) | Serviço do Tudo Rádio: lê o sitemap XML, extrai JSON-LD, metadados e prose, cadastra mídia e salva posts. |
+| [`src/app/api/cron/sync-dialradio/route.ts`](file:///home/flavio/Projetos/portal-lineup/src/app/api/cron/sync-dialradio/route.ts) | Endpoint unificado (`GET` e `POST`) com suporte ao parâmetro `?source=all|dialradio|tudoradio` para rodar na mesma cron do Vercel. |
+| [`src/app/api/cron/sync-tudoradio/route.ts`](file:///home/flavio/Projetos/portal-lineup/src/app/api/cron/sync-tudoradio/route.ts) | Endpoint dedicado específico para o Tudo Rádio. |
+| [`src/scripts/syncAllNews.ts`](file:///home/flavio/Projetos/portal-lineup/src/scripts/syncAllNews.ts) | Script CLI unificado (`npm run sync:all`) para sincronizar ambos de uma só vez. |
+| [`src/scripts/syncTudoRadio.ts`](file:///home/flavio/Projetos/portal-lineup/src/scripts/syncTudoRadio.ts) | Script CLI específico para o Tudo Rádio (`npm run sync:tudoradio`). |
+| [`src/scripts/syncDialRadio.ts`](file:///home/flavio/Projetos/portal-lineup/src/scripts/syncDialRadio.ts) | Script CLI específico para o Dial Rádio (`npm run sync:dialradio`). |
 
 ---
 
@@ -74,6 +83,13 @@ CRON_SECRET=sua_chave_secreta_aqui
 Você pode disparar a sincronização a qualquer momento pelo terminal:
 
 ```bash
+# Sincroniza ambas as fontes (Dial Rádio + Tudo Rádio)
+npm run sync:all
+
+# Sincroniza apenas o Tudo Rádio (via Sitemap)
+npm run sync:tudoradio
+
+# Sincroniza apenas o Dial Rádio (via RSS)
 npm run sync:dialradio
 ```
 
@@ -82,18 +98,25 @@ npm run sync:dialradio
 Você pode chamar o endpoint enviando o parâmetro `?secret=`:
 
 ```bash
+# Sincroniza ambas as fontes na mesma chamada (padrão)
 curl -X POST "http://localhost:3000/api/cron/sync-dialradio?secret=sua_chave_secreta_aqui"
+
+# Sincroniza apenas o Tudo Rádio
+curl -X POST "http://localhost:3000/api/cron/sync-dialradio?secret=sua_chave_secreta_aqui&source=tudoradio"
+
+# Sincroniza apenas o Dial Rádio
+curl -X POST "http://localhost:3000/api/cron/sync-dialradio?secret=sua_chave_secreta_aqui&source=dialradio"
 ```
 
-Ou enviando via Header Authorization:
-
+Ou chamando o endpoint dedicado do Tudo Rádio:
 ```bash
-curl -H "Authorization: Bearer sua_chave_secreta_aqui" "http://localhost:3000/api/cron/sync-dialradio"
+curl -X POST "http://localhost:3000/api/cron/sync-tudoradio?secret=sua_chave_secreta_aqui"
 ```
 
 #### Parâmetros Opcionais via Query String:
 
-- `limit`: Quantidade máxima de itens a processar do RSS por execução (padrão: `15`).
+- `source`: Fonte a sincronizar: `all` (padrão), `dialradio` ou `tudoradio`.
+- `limit`: Quantidade máxima de itens a processar por fonte por execução (padrão: `10`).
   - Exemplo: `?limit=5`
 - `draft`: Se enviado como `true`, salva as matérias como rascunho em vez de publicar diretamente (padrão: `false`).
   - Exemplo: `?draft=true`

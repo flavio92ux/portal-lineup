@@ -20,7 +20,9 @@
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
-    "sync:dialradio": "cross-env NODE_OPTIONS=--no-deprecation payload run ./src/scripts/syncDialRadio.ts"
+    "sync:dialradio": "cross-env NODE_OPTIONS=--no-deprecation payload run ./src/scripts/syncDialRadio.ts",
+    "sync:tudoradio": "cross-env NODE_OPTIONS=--no-deprecation payload run ./src/scripts/syncTudoRadio.ts",
+    "sync:all": "cross-env NODE_OPTIONS=--no-deprecation payload run ./src/scripts/syncAllNews.ts"
   },
   "dependencies": {
     "ai": "^6.0.0",
