@@ -444,8 +444,11 @@ export async function syncTudoRadioNews(
         continue
       }
 
-      // 6. Converte corpo HTML para AST Lexical
-      const lexicalContent = htmlToLexical(details.contentHtml)
+      // 6. Converte corpo HTML para AST Lexical com nota de atribuição/crédito
+      const creditAuthor = details.authorName ? ` por ${details.authorName}` : ''
+      const attributionNote = `<p><em>Esta notícia foi originalmente publicada${creditAuthor} no portal <a href="${item.loc}" target="_blank" rel="noopener noreferrer">tudoradio.com</a>. Todos os direitos reservados à fonte original.</em></p>`
+      const finalHtml = `${details.contentHtml}\n${attributionNote}`
+      const lexicalContent = htmlToLexical(finalHtml)
 
       // 7. Categorias: adiciona "Tudo Rádio" e seção específica se houver
       const categoryIds: (string | number)[] = []

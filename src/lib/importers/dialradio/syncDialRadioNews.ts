@@ -337,8 +337,10 @@ export async function syncDialRadioNews(
       const pubDate = details?.dataPublicacao || item.pubDate || new Date().toISOString()
       const rawImage = details?.imgDestaque || item.imageUrl
 
-      // Converte o corpo HTML para o AST do Lexical
-      const lexicalContent = htmlToLexical(rawHtml)
+      // Converte o corpo HTML para o AST do Lexical com nota de atribuição/crédito
+      const attributionNote = `<p><em>Esta notícia foi originalmente publicada no portal <a href="${item.link}" target="_blank" rel="noopener noreferrer">Dial Rádio</a>. Todos os direitos reservados à fonte original.</em></p>`
+      const finalHtml = `${rawHtml}\n${attributionNote}`
+      const lexicalContent = htmlToLexical(finalHtml)
 
       // 5. Trata Categorias
       const categoryIds: (string | number)[] = []
