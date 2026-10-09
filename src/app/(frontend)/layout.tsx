@@ -41,6 +41,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4946920103183663"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         {process.env.NODE_ENV === 'production' && (
           <>
             <Script
@@ -119,6 +125,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
+  },
+  other: {
+    'google-adsense-account': 'ca-pub-4946920103183663',
   },
   category: 'news',
 }

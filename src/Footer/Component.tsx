@@ -74,8 +74,26 @@ export async function Footer() {
           </div> */}
         </div>
 
+        {/* Institutional Links Bar */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4 border-t border-white/20 pt-6 text-xs sm:text-sm text-white/90">
+          <Link href="/quem-somos" className="transition-colors hover:text-white hover:underline">
+            Quem Somos
+          </Link>
+          <span className="opacity-40">•</span>
+          <Link
+            href="/politica-de-privacidade"
+            className="transition-colors hover:text-white hover:underline"
+          >
+            Política de Privacidade
+          </Link>
+          <span className="opacity-40">•</span>
+          <Link href="/contato" className="transition-colors hover:text-white hover:underline">
+            Contato
+          </Link>
+        </div>
+
         {/* Bottom tagline */}
-        <div className="mt-8 border-t border-white/20 pt-6 text-center">
+        <div className="mt-4 pt-2 text-center">
           <p className="mt-1 text-xs opacity-80">
             Desenvolvido por{' '}
             <a
